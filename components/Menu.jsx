@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Menu() {
     return (
-        <div className='mt-4 grid grid-cols-4 gap-4 mt-8'>
+        <div className='grid grid-cols-4 gap-4 mt-8'>
             <div className='p-4 bg-white items-center space-y-2'>
                 <div className="flex justify-center items-center">
                     <Image src="/assets/menu/coffee.png" width={240} height={160} alt='menu' />
