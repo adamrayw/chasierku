@@ -1,4 +1,3 @@
-import 'tw-elements';
 
 export default function Register() {
     return (
