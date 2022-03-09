@@ -9,7 +9,7 @@ export default function Menu() {
                 </div>
                 <div className="text-left">
                     <h3 className='text-xl font-bold text-gray-800'>Ice Coffee</h3>
-                    <p className='text-lg font-medium text-blue-400'>
+                    <p className='text-lg font-medium text-orange-500'>
                         Rp 10.000
                     </p>
                 </div>
@@ -20,7 +20,7 @@ export default function Menu() {
                 </div>
                 <div className="text-left">
                     <h3 className='text-xl font-bold text-gray-800'>Ice Coffee</h3>
-                    <p className='text-lg font-medium text-blue-400'>
+                    <p className='text-lg font-medium text-orange-500'>
                         Rp 10.000
                     </p>
                 </div>
@@ -31,7 +31,7 @@ export default function Menu() {
                 </div>
                 <div className="text-left">
                     <h3 className='text-xl font-bold text-gray-800'>Ice Coffee</h3>
-                    <p className='text-lg font-medium text-blue-400'>
+                    <p className='text-lg font-medium text-orange-500'>
                         Rp 10.000
                     </p>
                 </div>
@@ -42,7 +42,7 @@ export default function Menu() {
                 </div>
                 <div className="text-left">
                     <h3 className='text-xl font-bold text-gray-800'>Ice Coffee</h3>
-                    <p className='text-lg font-medium text-blue-400'>
+                    <p className='text-lg font-medium text-orange-500'>
                         Rp 10.000
                     </p>
                 </div>
