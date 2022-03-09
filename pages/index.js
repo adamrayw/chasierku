@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Menu from "../components/Menu";
+import NavbarC from "../components/Navbar";
 import Search from "../components/Search";
 import Tabs from "../components/Tabs";
 
@@ -14,15 +15,13 @@ export default function Home() {
       <main>
         <section className="grid grid-cols-3 ">
           <div className="col-span-2 bg-gray-50 p-10 h-screen">
-            <h1 className="text-4xl md:text-3xl font-bold text-blue-500">
-              Cashierku
-            </h1>
             <Search />
             <Tabs />
             <Menu />
           </div>
           <div>right</div>
         </section>
+        <NavbarC />
       </main>
     </div>
   );
