@@ -1,5 +1,3 @@
-import React from "react";
-
 
 export default function NavbarC() {
 
@@ -29,8 +27,8 @@ export default function NavbarC() {
                 Tambah Produk
             </a>
 
-            <p className="w-full mt-4 py-5 px-3 text-center text-gray-700">
-                <p className="text-xs h-6 ">Powered by Chasierku</p>
+            <p className="w-full mt-4 py-5 px-3 text-xs h-6  text-center text-gray-700">
+                Powered by Chasierku
             </p>
 
         </nav>
