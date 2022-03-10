@@ -3,9 +3,7 @@ import { menu } from "../data/menu.js";
 
 
 export default function Menu() {
-    menu.map(item => {
-        console.log(item.name);
-    })
+
     return (
         <div className='grid grid-cols-4 gap-4 mt-8'>
             {menu.map(item => {
