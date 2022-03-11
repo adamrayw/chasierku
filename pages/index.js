@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Menu from "../components/Menu";
 import NavbarC from "../components/Navbar";
+import Receipt from "../components/Receipt";
 import Search from "../components/Search";
 import Tabs from "../components/Tabs";
 
@@ -19,7 +20,9 @@ export default function Home() {
             <Tabs />
             <Menu />
           </div>
-          <div>right</div>
+          <div>
+            <Receipt />
+          </div>
         </section>
         <NavbarC />
       </main>
