@@ -9,7 +9,7 @@ Make it easier for shop owner, to record sales or transactions quickly and safel
 - Tabs with some categories
 - Products
 - Add Voucher Code
-- Pricnt Receipt
+- Print Receipt
 - Statistics
 - Add Product or Category
 
