@@ -5,10 +5,9 @@ import NavbarC from '../components/Navbar'
 export default function statistik() {
     return (
         <div>
-      <Head>
+            <Head>
                 <title>Statistic</title>
             </Head>
-        <div className='p-10'>
             <div className='text-3xl font-bold text-gray-700'>Statistic</div>
             <div className="3_screens bg-orange-500 grid grid-cols-3 mt-4 p-10 rounded gap-4 text-center">
                 <div className='shadow rounded-lg bg-white p-4 space-y-4'>
@@ -51,7 +50,7 @@ export default function statistik() {
                     </table>
                 </div>
             </div>
-            
+
             <NavbarC />
         </div>
     )
