@@ -5,7 +5,7 @@ export default function Register() {
             <section className="h-screen">
                 <div className="px-6 h-full text-gray-800">
                     <div
-                        className="flex flex-col xl:justify-center lg:justify-between justify-center items-center  h-full gap-6"
+                        className="flex flex-col xl:justify-center justify-center items-center  h-full gap-6"
                     >
                         <div className='mb-6'>
                             <h1 className="text-4xl md:text-5xl font-bold"><span className="text-blue-600"> Cashierku </span><span className="font-light text-gray-400">|</span> Register</h1>
