@@ -1,3 +1,4 @@
+import "tw-elements";
 
 export default function NavbarC() {
 
@@ -20,12 +21,34 @@ export default function NavbarC() {
                 Statistik
             </a>
 
-            <a href="#" className="w-full block py-5 px-3 text-center text-gray-700 focus:text-white hover:text-white transition">
+
+            <a href="#" className="w-full block py-5 px-3 text-center text-gray-700 focus:text-white hover:text-white transition" id="dropdownMenuButton1u"
+                data-bs-toggle="dropdown"
+                aria-expanded="false">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mb-2 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
                 </svg>
-                Tambah Produk
+                Tambah
             </a>
+
+            <ul
+                className="dropdown-menu min-w-max absolute hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded-lg shadow-lg mt-1 m-0 bg-clip-padding border-none"
+
+                aria-labelledby="dropdownMenuButton1u"
+            >
+                <li>
+                    <a
+                        className=" dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
+                        href="#">Tambah Menu</a>
+                </li>
+                <li>
+                    <a className=" dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
+
+                        href="#">Tambah Kategori</a>
+                </li>
+
+            </ul>
+
 
             <p className="w-full mt-4 py-5 px-3 text-xs h-6  text-center text-gray-700">
                 Powered by Chasierku
