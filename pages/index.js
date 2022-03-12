@@ -5,7 +5,22 @@ import Receipt from "../components/Receipt";
 import Search from "../components/Search";
 import Tabs from "../components/Tabs";
 
+import { useEffect } from "react";
+import { Router, useRouter } from "next/router";
+
 export default function Home() {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!localStorage.getItem("email")) {
+      router.push("/auth/login");
+    } else {
+      return;
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div>
       <Head>
