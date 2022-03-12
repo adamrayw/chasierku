@@ -39,7 +39,6 @@ export default function Home() {
             <Receipt />
           </div>
         </section>
-        <NavbarC />
       </main>
     </div>
   );
