@@ -13,6 +13,9 @@ Make it easier for shop owner, to record sales or transactions quickly and safel
 - Statistics
 - Add Product or Category
 
+## How
+Use any email and password to login.
+
 ## License
 MIT License
 
