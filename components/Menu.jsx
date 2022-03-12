@@ -10,7 +10,7 @@ export default function Menu() {
                 return (
                     <div key={item.id} className='p-4 bg-white items-center space-y-2 shadow-sm'>
                         <div className="flex justify-center items-center">
-                            <Image src={item.image} width={240} height={160} alt='menu' />
+                            <Image src={item.image} width={240} height={160} alt='menu' priority />
                         </div>
                         <div className="text-left">
                             <h3 className='text-xl font-bold text-gray-800'>{item.name}</h3>
