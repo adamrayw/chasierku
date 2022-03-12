@@ -1,7 +1,6 @@
-import "tw-elements";
-
+import react, { useState } from "react";
 export default function NavbarC() {
-
+    const [active, setActive] = useState(true);
     return (
         // <!-- fixed nav -->
         <nav className="fixed bottom-0 inset-x-0 bg-black border-t border-blue-300 flex justify-between text-sm text-white uppercase font-mono">
@@ -21,33 +20,33 @@ export default function NavbarC() {
                 Statistik
             </a>
 
+            <div className="w-full relative block py-5 px-3 text-center text-gray-700 focus:text-white hover:text-white transition">
+                <button onClick={(() => {
+                    setActive(!active);
+                })}>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mb-2 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                    </svg>
+                    Tambah
+                </button>
 
-            <a href="#" className="w-full block py-5 px-3 text-center text-gray-700 focus:text-white hover:text-white transition" id="dropdownMenuButton1u"
-                data-bs-toggle="dropdown"
-                aria-expanded="false">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mb-2 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-                </svg>
-                Tambah
-            </a>
+                <ul
+                    className={`dropdown-menu min-w-max top-0 absolute bg-white text-base z-50 py-2 list-none text-left rounded-lg shadow-lg border-none ${active ? 'block' : 'hidden'}`}
+                >
+                    <li>
+                        <a
+                            className=" dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
+                            href="#">Tambah Menu</a>
+                    </li>
+                    <li>
+                        <a className=" dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
 
-            <ul
-                className="dropdown-menu min-w-max absolute hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded-lg shadow-lg mt-1 m-0 bg-clip-padding border-none"
+                            href="#">Tambah Kategori</a>
+                    </li>
 
-                aria-labelledby="dropdownMenuButton1u"
-            >
-                <li>
-                    <a
-                        className=" dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
-                        href="#">Tambah Menu</a>
-                </li>
-                <li>
-                    <a className=" dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
+                </ul>
 
-                        href="#">Tambah Kategori</a>
-                </li>
-
-            </ul>
+            </div>
 
 
             <p className="w-full mt-4 py-5 px-3 text-xs h-6  text-center text-gray-700">
