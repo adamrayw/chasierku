@@ -1,6 +1,6 @@
 import react, { useState } from "react";
 export default function NavbarC() {
-    const [active, setActive] = useState(true);
+    const [active, setActive] = useState(false);
     return (
         // <!-- fixed nav -->
         <nav className="fixed bottom-0 inset-x-0 bg-black border-t border-blue-300 flex justify-between text-sm text-white uppercase font-mono">
