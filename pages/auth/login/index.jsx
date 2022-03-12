@@ -1,23 +1,40 @@
+import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 export default function Login() {
+
+    const router = useRouter();
+
+    const [loginForm, setLoginForm] = useState({
+        email: '',
+        password: ''
+    })
+
+    function handleLogin() {
+        localStorage.setItem('email', loginForm.email)
+        localStorage.setItem('password', loginForm.password)
+        router.push('/');
+    }
+
     return (
         <section className="h-screen flex justify-center items-center">
             <section className="h-screen">
                 <div className="px-6 h-full text-gray-800">
                     <div
-                        className="flex flex-col xl:justify-center lg:justify-between justify-center items-center  h-full gap-6"
+                        className="flex flex-col xl:justify-center justify-center items-center  h-full gap-6"
                     >
                         <div className='mb-6'>
                             <h1 className="text-4xl md:text-5xl font-bold"><span className="text-blue-600"> Cashierku </span><span className="font-light text-gray-400">|</span> Login</h1>
                         </div>
                         <div className="mb-12 md:mb-0">
-                            <form>
+                            <form onSubmit={handleLogin}>
                                 <div className="mb-6">
                                     <input
                                         type="text"
                                         className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                         id="exampleFormControlInput2"
                                         placeholder="Email address"
+                                        onChange={(e) => setLoginForm({ ...loginForm, email: e.target.value })}
                                     />
                                 </div>
 
@@ -27,6 +44,7 @@ export default function Login() {
                                         className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                         id="exampleFormControlInput2"
                                         placeholder="Password"
+                                        onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
                                     />
                                 </div>
 
@@ -44,7 +62,7 @@ export default function Login() {
 
                                 <div className="flex justify-center text-center lg:text-left">
                                     <button
-                                        type="button"
+                                        type="submit"
                                         className="w-full font-bold inline-block px-7 py-3 bg-blue-600 text-white text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
                                     >
                                         Login
