@@ -31,15 +31,10 @@ export default function Receipt() {
                 <div className="order my-8">
                     {data.map((item, index) => {
                         return (
-                            <>
-                                <div className="flex text-2xl text-gray-600 justify-between items-center">
-                                    <h2>{item.name}</h2>
-                                    <h2>Rp{item.price}</h2>
-                                </div>
-                                {/* <div className="notes mt-2">
-                                <p className="text-gray-400">+ Less Sugar</p>
-                            </div> */}
-                            </>
+                            <div key={index} className="flex text-2xl text-gray-600 justify-between items-center">
+                                <h2>{item.name}</h2>
+                                <h2>Rp{item.price}</h2>
+                            </div>
                         )
                     })}
 
