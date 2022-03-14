@@ -1,6 +1,13 @@
+import { useSelector } from "react-redux"
+
+
 export default function Receipt() {
+
+    const data = useSelector((state) => state.receipt.value);
+
+
     return (
-        <div className="p-10 relative h-screen w-auto">
+        <div className="p-10 relative h-screen w-auto ">
             <div className="customer bg-gray-50 p-4 flex justify-between items-center">
                 <div className="flex items-center">
                     <div className="bg-white rounded-full p-2">
@@ -20,15 +27,25 @@ export default function Receipt() {
                     </div>
                 </div>
             </div>
-            <div className="order my-8">
-                <div className="flex text-2xl text-gray-600 justify-between items-center">
-                    <h2>Ice Coffee</h2>
-                    <h2>Rp65000</h2>
-                </div>
-                <div className="notes mt-2">
-                    <p className="text-gray-400">+ Less Sugar</p>
+            <div className="overflow-auto h-80 scrollbar-hide">
+                <div className="order my-8">
+                    {data.map((item, index) => {
+                        return (
+                            <>
+                                <div className="flex text-2xl text-gray-600 justify-between items-center">
+                                    <h2>{item.name}</h2>
+                                    <h2>Rp{item.price}</h2>
+                                </div>
+                                {/* <div className="notes mt-2">
+                                <p className="text-gray-400">+ Less Sugar</p>
+                            </div> */}
+                            </>
+                        )
+                    })}
+
                 </div>
             </div>
+
             <hr />
             <div className="subtotal mt-4">
                 <div className="flex text-2xl text-gray-600 justify-between items-center">
