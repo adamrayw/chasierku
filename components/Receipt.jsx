@@ -27,13 +27,20 @@ export default function Receipt() {
                     </div>
                 </div>
             </div>
-            <div className="overflow-auto h-80 scrollbar-hide">
+            <div className="overflow-auto h-80 scrollbar-hide mt-2">
                 <div className="order my-8">
                     {data.map((item, index) => {
                         return (
-                            <div key={index} className="flex text-2xl text-gray-600 justify-between items-center">
-                                <h2>{item.name}</h2>
-                                <h2>Rp{item.price}</h2>
+                            <div key={index} className="flex text-2xl text-gray-600 justify-between items-center mt-6 first-of-type:mt-0">
+                                <div>
+                                    <h2>{item.name}</h2>
+                                </div>
+                                <div className="flex items-center">
+                                    <h2>Rp{item.price}</h2>
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-red-500 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </div>
                             </div>
                         )
                     })}
