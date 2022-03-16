@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { menu } from "../data/menu.js";
 import { useDispatch, useSelector } from "react-redux";
-import { addToReceipt } from "../features/receipt/addSlice";
+import { addToReceipt } from "../features/receipt/receiptSlice";
 
 export default function Menu() {
 
