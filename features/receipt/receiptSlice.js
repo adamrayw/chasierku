@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   value: [],
+  subTotal: 0,
 };
 
 export const receiptSlice = createSlice({
@@ -23,9 +24,26 @@ export const receiptSlice = createSlice({
         }
       }
     },
+    getSubtotal: (state, action) => {
+      // get subtotal from state value
+      let { subtotal, quantity } = state.value.reduce(
+        (cartSubtotal, cartItem) => {
+          const { price, qty } = cartItem;
+
+          cartSubtotal.subtotal += price;
+
+          return cartSubtotal;
+        },
+        {
+          subtotal: 0,
+        }
+      );
+      state.subTotal = subtotal;
+    },
   },
 });
 
-export const { addToReceipt, removeReceiptItem } = receiptSlice.actions;
+export const { addToReceipt, removeReceiptItem, getSubtotal } =
+  receiptSlice.actions;
 
 export default receiptSlice.reducer;
