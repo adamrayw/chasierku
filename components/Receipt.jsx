@@ -5,6 +5,8 @@ import { removeReceiptItem } from "../features/receipt/receiptSlice";
 export default function Receipt() {
     const [customer, setCustomer] = useState('')
     const data = useSelector((state) => state.receipt.value);
+    const subtotal = useSelector((state) => state.receipt);
+
     const dispatch = useDispatch();
 
     return (
@@ -29,7 +31,7 @@ export default function Receipt() {
                                     <h2>{item.name}</h2>
                                 </div>
                                 <div className="flex items-center">
-                                    <h2>Rp{item.price}</h2>
+                                    <h2>Rp{new Intl.NumberFormat(['ban', 'id']).format(item.price)}</h2>
                                     <button onClick={() => dispatch(removeReceiptItem(item))}>
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-red-500 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -47,7 +49,8 @@ export default function Receipt() {
             <div className="subtotal mt-4">
                 <div className="flex text-2xl text-gray-600 justify-between items-center">
                     <h2>Subtotal</h2>
-                    <h2>Rp65000</h2>
+                    <h2>Rp{new Intl.NumberFormat(['ban', 'id']).format(subtotal.subTotal)}
+                    </h2>
                 </div>
                 <div className="ppn mt-2">
                     <p className="text-gray-400">PPN 10%</p>
