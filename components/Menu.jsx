@@ -1,13 +1,18 @@
 import Image from "next/image";
 import { menu } from "../data/menu.js";
 import { useDispatch, useSelector } from "react-redux";
-import { addToReceipt } from "../features/receipt/receiptSlice";
+import { addToReceipt, getSubtotal } from "../features/receipt/receiptSlice";
+import { useEffect } from "react";
 
 export default function Menu() {
-
     const value = useSelector((state) => state.receipt.value);
+
     console.log(value);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getSubtotal());
+    }, [dispatch, value]);
 
     return (
         <div className='grid grid-cols-4 gap-4 mt-8'>
@@ -23,7 +28,8 @@ export default function Menu() {
                         <div className="text-left">
                             <h3 className='text-xl font-bold text-gray-800'>{item.name}</h3>
                             <p className='text-lg font-medium text-orange-500'>
-                                Rp{item.price}
+                                Rp
+                                {new Intl.NumberFormat(['ban', 'id']).format(item.price)}
                             </p>
                         </div>
                     </button>
