@@ -52,14 +52,15 @@ export default function Receipt() {
                     <h2>Rp{new Intl.NumberFormat(['ban', 'id']).format(subtotal.subTotal)}
                     </h2>
                 </div>
-                <div className="ppn mt-2">
+                <div className="ppn mt-2 flex justify-between items-center">
                     <p className="text-gray-400">PPN 10%</p>
+                    <p className="text-gray-400">+ Rp{new Intl.NumberFormat(['ban', 'id']).format(subtotal.subTotal * 10.0 / 100)}</p>
                 </div>
             </div>
             <div className="total mt-4">
                 <div className="flex text-2xl text-gray-600 justify-between items-center">
                     <h2>Total</h2>
-                    <h2>Rp71500</h2>
+                    <h2>Rp{new Intl.NumberFormat(['ban', 'id']).format(subtotal.subTotal + subtotal.subTotal * 10.0 / 100)}</h2>
                 </div>
             </div>
             <div className="some-btn absolute bottom-0 right-0 left-0 mb-36 space-y-4 px-10">
