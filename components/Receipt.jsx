@@ -1,13 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux"
-import { removeReceiptItem } from "../features/receipt/receiptSlice";
+import { getVoucher, removeReceiptItem } from "../features/receipt/receiptSlice";
 
 export default function Receipt() {
     const [customer, setCustomer] = useState('')
     const data = useSelector((state) => state.receipt.value);
     const subtotal = useSelector((state) => state.receipt);
 
+
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getVoucher());
+    }, [dispatch])
+
+    let total = subtotal.subTotal + subtotal.subTotal * 10.0 / 100;
+
+    if (subtotal.isVoucher.isTrue) {
+        let potongan = (subtotal.isVoucher.value.disc / 100) * total;
+        total = total - potongan;
+    }
 
     return (
         <div className="p-10 relative h-screen w-auto ">
@@ -56,15 +68,24 @@ export default function Receipt() {
                     <p className="text-gray-400">PPN 10%</p>
                     <p className="text-gray-400">+ Rp{new Intl.NumberFormat(['ban', 'id']).format(subtotal.subTotal * 10.0 / 100)}</p>
                 </div>
+                {(subtotal.isVoucher.isTrue) ? (
+                    <div className="ppn mt-2 flex justify-between items-center">
+                        <p className="text-gray-400">{subtotal.isVoucher.value.name} {subtotal.isVoucher.value.disc}%</p>
+                        <p className="text-gray-400">- {new Intl.NumberFormat(['ban', 'id']).format(potongan)}</p>
+                    </div>
+                ) : ('')}
+
             </div>
             <div className="total mt-4">
                 <div className="flex text-2xl text-gray-600 justify-between items-center">
                     <h2>Total</h2>
-                    <h2>Rp{new Intl.NumberFormat(['ban', 'id']).format(subtotal.subTotal + subtotal.subTotal * 10.0 / 100)}</h2>
+                    <h2>Rp{new Intl.NumberFormat(['ban', 'id']).format(total)}</h2>
                 </div>
             </div>
             <div className="some-btn absolute bottom-0 right-0 left-0 mb-36 space-y-4 px-10">
-                <input type="text" className="border border-dashed w-full text-center py-4 text-xl" placeholder="Kode Voucher" />
+                <input type="text" className="border border-dashed w-full text-center py-4 text-xl" placeholder="Kode Voucher" onKeyUp={((e) => {
+                    dispatch(getVoucher(e.target.value))
+                })} />
                 <button className="bg-orange-500 text-white hover:bg-orange-700 active:bg-orange-800 transition-all w-full font-bold tracking-wide text-center py-4 text-xl">Print Receipt</button>
             </div>
         </div>
