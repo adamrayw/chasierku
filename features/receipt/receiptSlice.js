@@ -1,7 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { voucher } from "../../data/voucher";
 
 const initialState = {
   value: [],
+  voucher,
+  isVoucher: {
+    isTrue: false,
+    value: [],
+  },
   subTotal: 0,
 };
 
@@ -40,10 +46,21 @@ export const receiptSlice = createSlice({
       );
       state.subTotal = subtotal;
     },
+    getVoucher: (state, action) => {
+      // get voucher from state voucher
+      const voucher = state.voucher.find((v) => v.kode === action.payload);
+      if (voucher) {
+        state.isVoucher.isTrue = true;
+        state.isVoucher.value = voucher;
+      } else {
+        state.isVoucher.isTrue = false;
+        state.isVoucher.value = [];
+      }
+    },
   },
 });
 
-export const { addToReceipt, removeReceiptItem, getSubtotal } =
+export const { addToReceipt, removeReceiptItem, getSubtotal, getVoucher } =
   receiptSlice.actions;
 
 export default receiptSlice.reducer;
