@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import { useCookies, getAll } from 'react-cookie';
+import axios from 'axios';
 
 export default function Login() {
-
+    const [cookie, setCookie] = useCookies(['user']);
     const router = useRouter();
 
     const [loginForm, setLoginForm] = useState({
@@ -10,10 +12,28 @@ export default function Login() {
         password: ''
     })
 
-    function handleLogin() {
-        localStorage.setItem('email', loginForm.email)
-        localStorage.setItem('password', loginForm.password)
-        router.push('/');
+    const [userData, setUserData] = useState([]);
+
+    const data = {
+        email: loginForm.email,
+        password: loginForm.password
+    }
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post('https://chasierku.herokuapp.com/api/login', data);
+            console.log(response);
+            setUserData(response);
+            setCookie("user", response.data, {
+                path: '/',
+                maxAge: 3600,
+                sameSite: true,
+            })
+            router.push('/');
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (
@@ -26,22 +46,24 @@ export default function Login() {
                         <div className='mb-6'>
                             <h1 className="text-4xl md:text-5xl font-bold"><span className="text-orange-500"> Cashierku </span><span className="font-light text-gray-400">|</span> Login</h1>
                         </div>
+
                         <div className="mb-12 md:mb-0">
                             <form onSubmit={handleLogin}>
                                 <div className="mb-6">
                                     <input
                                         type="text"
-                                        className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange-500 focus:outline-none"
+                                        className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                         id="exampleFormControlInput2"
                                         placeholder="Email address"
                                         onChange={(e) => setLoginForm({ ...loginForm, email: e.target.value })}
                                     />
                                 </div>
 
+
                                 <div className="mb-6">
                                     <input
                                         type="password"
-                                        className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange-500 focus:outline-none"
+                                        className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                         id="exampleFormControlInput2"
                                         placeholder="Password"
                                         onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
@@ -57,25 +79,27 @@ export default function Login() {
                                         />
                                         <label className="form-check-label inline-block text-gray-800" htmlFor="exampleCheck2"
                                         >Remember me</label>
-                                    </div>
-                                </div>
+
+                                    </div >
+                                </div >
 
                                 <div className="flex justify-center text-center lg:text-left">
                                     <button
                                         type="submit"
+
                                         className="w-full font-bold inline-block px-7 py-3 bg-orange-500 text-white text-sm leading-snug uppercase rounded shadow-md hover:bg-orange-700 hover:shadow-lg focus:bg-orange-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-orange-800 active:shadow-lg transition duration-150 ease-in-out"
+                                        onClick={handleLogin}
+
                                     >
                                         Login
                                     </button>
+
                                 </div>
-                            </form>
-                            <div className='mt-10 text-center'>
-                                <p>Belum berlangganan? ayo berlangganan hanya 100rb/bln sudah mendapakan semua fitur! <a href="#" className='underline'>Langganan</a></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </section>
+                            </form >
+                        </div >
+                    </div >
+                </div >
+            </section >
+        </section >
     )
 }
