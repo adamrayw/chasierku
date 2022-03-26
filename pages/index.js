@@ -14,7 +14,7 @@ export default function Home() {
   const [cookie, setCookie] = useCookies(["user"]);
 
   useEffect(() => {
-    if (cookie.data) {
+    if (!cookie.data) {
       router.push("/auth/login");
     } else {
       return;
