@@ -12,7 +12,7 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    if (!localStorage.getItem("email")) {
+    if (!cookie.data) {
       router.push("/auth/login");
     } else {
       return;
