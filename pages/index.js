@@ -4,15 +4,17 @@ import NavbarC from "../components/Navbar";
 import Receipt from "../components/Receipt";
 import Search from "../components/Search";
 import Tabs from "../components/Tabs";
+import { useCookies, getAll } from "react-cookie";
 
 import { useEffect } from "react";
 import { Router, useRouter } from "next/router";
 
 export default function Home() {
   const router = useRouter();
+  const [cookie, setCookie] = useCookies(["user"]);
 
   useEffect(() => {
-    if (!localStorage.getItem("email")) {
+    if (cookie.data) {
       router.push("/auth/login");
     } else {
       return;
@@ -20,6 +22,8 @@ export default function Home() {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  cookie ? console.log(cookie) : console.log("no cookie");
 
   return (
     <div>
