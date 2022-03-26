@@ -15,7 +15,7 @@ export default function Home() {
 
   useEffect(() => {
     if (!cookie.user) {
-      window.location.href = "/auth/login";
+      router.push("/auth/login");
     } else {
       return;
     }
