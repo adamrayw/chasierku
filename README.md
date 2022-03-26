@@ -13,6 +13,10 @@ Make it easier for shop owner, to record sales or transactions quickly and safel
 - Statistics
 - Add Product or Category
 
+## Available Voucher Code
+- VOUCHER-MERDEKA
+- VOUCHER-ANNIVERSARY
+
 ## How
 Use any email and password to login.
 
