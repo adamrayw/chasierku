@@ -23,8 +23,6 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  cookie ? console.log(cookie) : console.log("no cookie");
-
   return (
     <div>
       <Head>

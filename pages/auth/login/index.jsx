@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { useCookies, getAll } from 'react-cookie';
+import { useCookies } from 'react-cookie';
 import axios from 'axios';
 
 export default function Login() {
@@ -12,8 +12,6 @@ export default function Login() {
         password: ''
     })
 
-    const [userData, setUserData] = useState([]);
-
     const data = {
         email: loginForm.email,
         password: loginForm.password
@@ -23,8 +21,6 @@ export default function Login() {
         e.preventDefault();
         try {
             const response = await axios.post('https://chasierku.herokuapp.com/api/login', data);
-            console.log(response);
-            setUserData(response);
             setCookie("user", response.data, {
                 path: '/',
                 maxAge: 3600,
