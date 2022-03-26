@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
@@ -6,6 +6,14 @@ import axios from 'axios';
 export default function Login() {
     const [cookie, setCookie] = useCookies(['user']);
     const router = useRouter();
+
+    useEffect(() => {
+        if (cookie.user) {
+            router.push("/");
+        } else {
+            return;
+        }
+    })
 
     const [loginForm, setLoginForm] = useState({
         email: '',
