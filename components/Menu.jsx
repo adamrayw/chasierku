@@ -7,7 +7,6 @@ import { useEffect } from "react";
 export default function Menu() {
     const value = useSelector((state) => state.receipt.value);
 
-    console.log(value);
     const dispatch = useDispatch();
 
     useEffect(() => {
