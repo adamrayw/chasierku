@@ -27,6 +27,18 @@ export default function Login() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
+
+        if (loginForm.email === '' || loginForm.password === '') {
+            alert('Email atau password tidak boleh kosong!');
+            return;
+        }
+
+        if (loginForm.password.length < 8) {
+            alert('Password setidaknya harus lebih dari 8 karakter!');
+            return;
+        }
+
+
         try {
             const response = await axios.post('https://chasierku.herokuapp.com/api/login', data);
             setCookie("user", response.data, {
@@ -36,7 +48,7 @@ export default function Login() {
             })
             router.push('/');
         } catch (error) {
-            console.log(error);
+            alert(error.message)
         }
     }
 
@@ -55,10 +67,11 @@ export default function Login() {
                             <form onSubmit={handleLogin}>
                                 <div className="mb-6">
                                     <input
-                                        type="text"
+                                        type="email"
                                         className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                         id="exampleFormControlInput2"
                                         placeholder="Email address"
+                                        required
                                         onChange={(e) => setLoginForm({ ...loginForm, email: e.target.value })}
                                     />
                                 </div>
@@ -70,6 +83,7 @@ export default function Login() {
                                         className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                         id="exampleFormControlInput2"
                                         placeholder="Password"
+                                        required
                                         onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
                                     />
                                 </div>
