@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useCookies } from 'react-cookie';
+import Spinner from '../../../public/assets/spinner.png';
 import axios from 'axios';
+import Image from 'next/image';
 
 export default function Login() {
     const [cookie, setCookie] = useCookies(['user']);
+    const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
@@ -40,13 +43,16 @@ export default function Login() {
 
 
         try {
+            setIsLoading(true);
             const response = await axios.post('https://chasierku.herokuapp.com/api/login', data);
             setCookie("user", response.data, {
                 path: '/',
                 maxAge: 3600,
                 sameSite: true,
             })
+            setIsLoading(false);
             router.push('/');
+
         } catch (error) {
             alert(error.message)
         }
@@ -104,12 +110,16 @@ export default function Login() {
                                 <div className="flex justify-center text-center lg:text-left">
                                     <button
                                         type="submit"
-
-                                        className="w-full font-bold inline-block px-7 py-3 bg-orange-500 text-white text-sm leading-snug uppercase rounded shadow-md hover:bg-orange-700 hover:shadow-lg focus:bg-orange-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-orange-800 active:shadow-lg transition duration-150 ease-in-out"
+                                        {...(isLoading ? 'disabled' : {})}
+                                        className={`w-full font-bold inline-block px-7 py-3 bg-orange-500 text-white text-sm leading-snug uppercase rounded shadow-md hover:bg-orange-700 hover:shadow-lg focus:outline-none focus:ring-0 active:bg-orange-800 active:shadow-lg transition duration-150 ease-in-out ${isLoading ? 'cursor-not-allowed hover:bg-orange-500 shadow-lg opacity-50' : ''}`}
+                                        {...(isLoading) ? { disabled: true } : {}}
                                         onClick={handleLogin}
 
                                     >
-                                        Login
+                                        {isLoading ? (<>
+                                            <Image src={Spinner} alt="spinner" className="animate-spin mr-2" width={20} height={20} />
+                                        </>) : 'Login'}
+
                                     </button>
 
                                 </div>
