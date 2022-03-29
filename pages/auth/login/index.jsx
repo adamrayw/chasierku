@@ -66,7 +66,11 @@ export default function Login() {
                         className="flex flex-col xl:justify-center justify-center items-center h-full gap-6"
                     >
                         <div className='mb-6'>
-                            <h1 className="text-4xl md:text-5xl font-bold"><span className="text-orange-500"> Cashierku </span><span className="font-light text-gray-400">|</span> Login</h1>
+                            <h1 className="text-4xl md:text-5xl font-bold">
+                                <span className="text-orange-500"> Cashierku</span>
+                                <span className="font-light text-gray-400"> | </span>
+                                Login
+                            </h1>
                         </div>
 
                         <div className="mb-12 md:mb-0">
