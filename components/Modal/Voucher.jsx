@@ -20,7 +20,11 @@ export default function Voucher() {
     })
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
-    const [getVoucher, setGetVoucher] = useState({})
+    const [getVoucher, setGetVoucher] = useState([])
+    const [isDeleteVoucher, setIsDeleteVoucher] = useState(false);
+    const [deletedVoucherName, setDeletedVoucherName] = useState([]);
+    const [loadingDeleteVoucher, setLoadingDeleteVoucher] = useState(false);
+    const [skeletonLoading, setSkeletonLoading] = useState(false);
 
     const data = {
         user_id: cookie.user.data.id ?? '',
@@ -36,9 +40,23 @@ export default function Voucher() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const getVouchers = async () => {
         try {
+            setSkeletonLoading(true);
             const response = await axios.get('/api/voucher/' + cookie.user.data.id);
             setGetVoucher(response.data.data.vouchers);
-            console.log(response.data.data.vouchers);
+            setSkeletonLoading(false);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const handleDeleteVoucher = async (voucher) => {
+        try {
+            setLoadingDeleteVoucher(true);
+            const response = await axios.delete('/api/voucher/' + voucher.id + '/delete');
+            getVouchers();
+            setIsDeleteVoucher(false);
+            setDeletedVoucherName([]);
+            setLoadingDeleteVoucher(false);
         } catch (error) {
             console.log(error);
         }
@@ -54,7 +72,6 @@ export default function Voucher() {
             axios.get('/sanctum/csrf-cookie')
             const response = await axios.post('api/voucher/store', data);
             const result = response;
-            console.log(result);
             setLoading(false);
             setSuccess(true);
             setTimeout(() => {
@@ -69,33 +86,56 @@ export default function Voucher() {
 
     }
 
-
     return (
         <div className='py-6'>
             <div className='mb-6'>
-                <h1 className='text-xl font-bold mb-2 text-gray-700'>Voucher Aktif</h1>
+                {/* <h1 className='text-xl font-bold mb-2 text-gray-700'>Voucher Aktif</h1> */}
                 <div className='overflow-auto h-40 w-auto'>
                     <table>
                         <thead>
                             <tr>
-                                <th className='sticky top-0 pr-4 bg-white'>
+                                <th className='sticky w-full top-0 pr-4 bg-white'>
                                     Name
                                 </th>
-                                <th className='sticky top-0 pr-4 bg-white'>
+                                <th className='sticky w-full top-0 pr-4 bg-white'>
                                     Code
                                 </th>
-                                <th className='sticky top-0 pr-4 bg-white'>
+                                <th className='sticky w-full top-0 pr-4 bg-white'>
                                     Discount
                                 </th>
-                                <th className='sticky z-50 top-0 pr-4 bg-white'>
+                                <th className='sticky w-full z-50 top-0 pr-4 bg-white'>
                                     Action
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
+                            {skeletonLoading ? (
+                                <tr>
+                                    <td className='py-4 pr-4'>
+                                        <div className='h-5 w-full bg-gray-500 rounded-lg animate-pulse'></div>
+                                    </td>
+                                    <td className='py-4 pr-4'>
+                                        <div className='h-5 w-full bg-gray-500 rounded-lg animate-pulse'></div>
+                                    </td>
+                                    <td className='py-4 pr-4'>
+                                        <div className='h-5 w-full bg-gray-500 rounded-lg animate-pulse'></div>
+                                    </td>
+                                    <td className='py-4 pr-4 space-x-2 flex items-center justify-center'>
+                                        <button>
+                                            <Image src={Edit} width={20} height={20} alt="edit" />
+                                        </button>
+                                        <button>
+                                            <Image src={Delete} width={20} height={20} alt="delete" onClick={(() => {
+                                                setDeletedVoucherName(voucher);
+                                                setIsDeleteVoucher(true);
+                                            })} />
+                                        </button>
+                                    </td>
+                                </tr>
+                            ) : null}
                             {getVoucher.map((voucher, index) => {
                                 return (
-                                    <tr key={voucher.id}>
+                                    <tr key={index}>
                                         <td className='py-4 pr-4'>{voucher.voucher_name}</td>
                                         <td className='py-4 pr-4'>{voucher.voucher_code}</td>
                                         <td className='py-4 pr-4'>{voucher.disc}%</td>
@@ -104,17 +144,58 @@ export default function Voucher() {
                                                 <Image src={Edit} width={20} height={20} alt="edit" />
                                             </button>
                                             <button>
-                                                <Image src={Delete} width={20} height={20} alt="delete" />
+                                                <Image src={Delete} width={20} height={20} alt="delete" onClick={(() => {
+                                                    setDeletedVoucherName(voucher);
+                                                    setIsDeleteVoucher(true);
+                                                })} />
                                             </button>
                                         </td>
                                     </tr>
                                 )
                             })}
+                            {skeletonLoading ? null : (
+                                <>
+                                    {
+                                        getVoucher.length < 1 ? (
+                                            <tr>
+                                                <td className='py-4 pr-4' colSpan={4}>
+                                                    <div className='text-center'>
+                                                        <p className='text-gray-700'>Tidak ada voucher</p>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ) : null
+                                    }
+                                </>
+                            )}
+
+
                         </tbody>
                     </table>
                 </div>
-
             </div>
+            {isDeleteVoucher ? (
+                <div className='bg-orange-500 text-white px-4 py-4'>
+                    <p className=' text-center'>
+                        {` Yakin ingin delete voucher ${deletedVoucherName.voucher_name}?`}
+                    </p>
+                    <div className='flex items-center mt-4 justify-around'>
+                        {loadingDeleteVoucher ? (
+                            <Image className='animate-spin ' src={Spinner} width={20} height={20} alt="spinner" />
+                        ) : (
+                            <>
+                                <button className='bg-white text-red-500 px-4 py-2 shadow-sm rounded-md mt-2 hover:bg-gray-50 active:bg-gray-500' onClick={() => handleDeleteVoucher(deletedVoucherName)}>Ya, yakin</button>
+                                <button className='bg-white text-red-500 px-4 py-2 shadow-sm rounded-md mt-2 hover:bg-gray-50 active:bg-gray-500' onClick={(() => {
+                                    setIsDeleteVoucher(false);
+                                    setDeletedVoucherName([]);
+                                })}>Ngga Jadi</button>
+                            </>
+                        )}
+
+                    </div>
+                </div>
+            ) : null}
+
             <hr />
             <div className="block mt-6 bg-white max-w-sm">
                 <form onSubmit={handleSubmit}>
