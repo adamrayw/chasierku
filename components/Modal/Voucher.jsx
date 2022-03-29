@@ -1,13 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import Spinner from '../../public/assets/spinner.png';
 import Image from 'next/image';
+import Edit from '../../public/assets/edit.png';
+import Delete from '../../public/assets/delete.png';
 import { useCookies } from 'react-cookie';
 
 export default function Voucher() {
 
-    const [cookie, setCookie] = useCookies(['user']);
+    const [cookie, setCookie] = useCookies(['user'] ?? '');
 
+    if (cookie === undefined) {
+        alert('Silahkan login terlebih dahulu');
+    }
     const [voucher, setVoucher] = useState({
         voucher_name: '',
         voucher_code: '',
@@ -15,13 +20,30 @@ export default function Voucher() {
     })
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
+    const [getVoucher, setGetVoucher] = useState({})
 
     const data = {
-        user_id: cookie.user.data.id,
+        user_id: cookie.user.data.id ?? '',
         voucher_name: voucher.voucher_name,
         voucher_code: voucher.voucher_code,
         disc: voucher.disc,
     }
+
+    useEffect(() => {
+        getVouchers();
+    }, [getVouchers])
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const getVouchers = async () => {
+        try {
+            const response = await axios.get('/api/voucher/' + cookie.user.data.id);
+            setGetVoucher(response.data.data.vouchers);
+            console.log(response.data.data.vouchers);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -39,6 +61,7 @@ export default function Voucher() {
                 setSuccess(false);
             }, 3000);
             setVoucher({ ...voucher, voucher_name: '', voucher_code: '', disc: '' })
+            getVouchers();
         } catch (error) {
             console.log(error);
             setLoading(false);
@@ -50,9 +73,50 @@ export default function Voucher() {
     return (
         <div className='py-6'>
             <div className='mb-6'>
-                <h1 className='text-gray-700'>Voucher Aktif</h1>
+                <h1 className='text-xl font-bold mb-2 text-gray-700'>Voucher Aktif</h1>
+                <div className='overflow-auto h-40 w-auto'>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th className='sticky top-0 pr-4 bg-white'>
+                                    Name
+                                </th>
+                                <th className='sticky top-0 pr-4 bg-white'>
+                                    Code
+                                </th>
+                                <th className='sticky top-0 pr-4 bg-white'>
+                                    Discount
+                                </th>
+                                <th className='sticky z-50 top-0 pr-4 bg-white'>
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {getVoucher.map((voucher, index) => {
+                                return (
+                                    <tr key={voucher.id}>
+                                        <td className='py-4 pr-4'>{voucher.voucher_name}</td>
+                                        <td className='py-4 pr-4'>{voucher.voucher_code}</td>
+                                        <td className='py-4 pr-4'>{voucher.disc}%</td>
+                                        <td className='py-4 pr-4 space-x-2 flex items-center'>
+                                            <button>
+                                                <Image src={Edit} width={20} height={20} alt="edit" />
+                                            </button>
+                                            <button>
+                                                <Image src={Delete} width={20} height={20} alt="delete" />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
-            <div className="block bg-white max-w-sm">
+            <hr />
+            <div className="block mt-6 bg-white max-w-sm">
                 <form onSubmit={handleSubmit}>
                     <div className="form-group mb-6">
                         <label htmlFor="nama_voucher" className="form-label inline-block mb-2 text-gray-700">Nama Voucher</label>
@@ -83,7 +147,7 @@ export default function Voucher() {
                     ) : ''}
                 </form>
             </div>
-        </div>
+        </div >
 
     )
 }
