@@ -34,7 +34,7 @@ export default function Voucher() {
     }
 
     useEffect(() => {
-        getVouchers();
+        // getVouchers();
     }, [getVouchers])
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
