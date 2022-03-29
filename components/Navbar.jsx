@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Menus from '../public/assets/menus.png'
 import Discount from '../public/assets/discount.png'
 import Label from '../public/assets/label.png'
+import Back from '../public/assets/back.png'
 import Voucher from "./Modal/Voucher";
 
 
@@ -146,8 +147,10 @@ export default function NavbarC() {
 
                                 <div className="modal-content py-4 text-left px-6">
                                     <div className="flex justify-between items-center pb-3">
-                                        <div>
-                                            <p onClick={() => setIndex(0)}>back</p>
+                                        <div className="flex items-center space-x-2">
+                                            <button className="w-5 h-5" onClick={() => setIndex(0)}>
+                                                <Image src={Back} width={20} height={20} alt='back' />
+                                            </button>
                                             <p className="text-2xl font-bold text-gray-600">Tambah Voucher</p>
                                         </div>
                                         <div className="modal-close cursor-pointer z-50" onClick={() => setActive(false)}>
