@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Menus from '../public/assets/menus.png'
 import Discount from '../public/assets/discount.png'
 import Label from '../public/assets/label.png'
+import Voucher from "./Modal/Voucher";
 
 
 export default function NavbarC() {
@@ -156,16 +157,7 @@ export default function NavbarC() {
                                         </div>
                                     </div>
                                     <hr />
-                                    <ul className='space-y-4 my-6'>
-                                        <li>
-                                            <button className='flex items-center w-full shadow px-3 py-4 rounded-xl hover:shadow-lg transition-all'>
-                                                <Image src={Discount} width={48} height={48} alt='add-discount' />
-                                                <p className='ml-2'>
-                                                    Tambah Voucher Diskon
-                                                </p>
-                                            </button>
-                                        </li>
-                                    </ul>
+                                    <Voucher />
                                 </div>
                             </div>
                         </div >
