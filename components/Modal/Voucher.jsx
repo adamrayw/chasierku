@@ -27,12 +27,7 @@ export default function Voucher() {
             setLoading(true);
 
             axios.get('/sanctum/csrf-cookie')
-            const response = await axios.post('api/voucher/store', {
-                data,
-                headers: {
-                    "Authorization": `Bearer ${cookie.user.access_token}`,
-                }
-            });
+            const response = await axios.post('api/voucher/store', data);
             const result = response;
             console.log(result);
             setLoading(false);
@@ -67,7 +62,7 @@ export default function Voucher() {
                         <small id="jumlah_diskon" className="block mt-1 text-xs text-gray-600">cth: 40 = 40%</small>
                     </div>
 
-                    <button type="submit" className="px-6 py-2.5 bg-orange-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-orange-700 hover:shadow-lg focus:bg-orange-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-orange-800 active:shadow-lg transition duration-150 ease-in-out" onClick={handleSubmit}>Tambah</button>
+                    <button type="submit" className="px-6 py-2.5 bg-orange-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-orange-700 hover:shadow-lg focus:bg-orange-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-orange-800 active:shadow-lg transition duration-150 ease-in-out" >Tambah</button>
                     {loading ? 'Loading...' : ''}
                 </form>
             </div>
