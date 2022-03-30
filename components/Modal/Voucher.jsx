@@ -161,7 +161,7 @@ export default function Voucher() {
                                             {isEditMode ? (
                                                 <button onClick={() => {
                                                     setIsEditMode(false);
-                                                    setVoucher({ ...voucher, voucher_name: '', voucher_code: '', disc: '' })
+                                                    setVoucher({ ...voucher, id: '', voucher_name: '', voucher_code: '', disc: '' })
                                                 }}>
                                                     X
                                                 </button>
