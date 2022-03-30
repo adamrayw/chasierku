@@ -228,7 +228,7 @@ export default function Voucher() {
             ) : null}
 
             <hr />
-            <div className="block mt-6 bg-white max-w-sm">
+            <div className="block mt-6 bg-white max-w-full">
                 <form onSubmit={handleSubmit}>
                     <div className="form-group mb-6">
                         <label htmlFor="nama_voucher" className="form-label inline-block mb-2 text-gray-700">Nama Voucher</label>
