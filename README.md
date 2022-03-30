@@ -5,20 +5,13 @@ Cashierku is a point of sale system, like chasier, which can be used in various 
 Make it easier for shop owner, to record sales or transactions quickly and safely.
 
 ## Feature
-- Search Product
+- Search Menu
 - Tabs with some categories
-- Products
+- Menu
 - Add Voucher Code
 - Print Receipt
 - Statistics
-- Add Product or Category
-
-## Available Voucher Code
-- VOUCHER-MERDEKA
-- VOUCHER-ANNIVERSARY
-
-## How
-Use any email and password to login.
+- Add new Menu, Voucher Code, and Category 
 
 ## License
 MIT License
