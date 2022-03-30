@@ -159,17 +159,19 @@ export default function Voucher() {
                                         <td className='py-4 px-6'>{voucher.disc}%</td>
                                         <td className='py-4 px-6 space-x-2 flex items-center'>
                                             {isEditMode ? (
-                                                <button onClick={() => {
-                                                    setIsEditMode(false);
-                                                    setVoucher({ ...voucher, id: '', voucher_name: '', voucher_code: '', disc: '' })
-                                                }}>
-                                                    X
+                                                <button>
+                                                    <Image src={Edit} width={20} height={20} alt="edit" onClick={() => {
+                                                        setIsEditMode(false);
+                                                        setVoucher({ ...voucher, id: '', voucher_name: '', voucher_code: '', disc: '' })
+
+                                                    }} />
                                                 </button>
                                             ) : (
                                                 <button>
                                                     <Image src={Edit} width={20} height={20} alt="edit" onClick={(() => {
                                                         setVoucher({ ...voucher, id: voucher.id, voucher_name: voucher.voucher_name, voucher_code: voucher.voucher_code, disc: voucher.disc })
                                                         setIsEditMode(true);
+                                                        setIsDeleteVoucher(false);
                                                     })} />
                                                 </button>
                                             )}
@@ -178,6 +180,7 @@ export default function Voucher() {
                                                 <Image src={Delete} width={20} height={20} alt="delete" onClick={(() => {
                                                     setDeletedVoucherName(voucher);
                                                     setIsDeleteVoucher(true);
+                                                    setIsEditMode(false);
                                                 })} />
                                             </button>
                                         </td>
@@ -199,12 +202,21 @@ export default function Voucher() {
                                     }
                                 </>
                             )}
-
-
                         </tbody>
                     </table>
                 </div>
+                {isEditMode ? (
+                    <div className='text-right w-full'>
+                        <button className='bg-gray-600 text-white rounded px-4 py-2 shadow-sm' onClick={() => {
+                            setIsEditMode(false);
+                            setVoucher({ ...voucher, id: '', voucher_name: '', voucher_code: '', disc: '' })
+                        }}>
+                            Tutup Mode Edit
+                        </button>
+                    </div>
+                ) : null}
             </div>
+
             {isDeleteVoucher ? (
                 <div className='bg-orange-500 text-white px-4 py-4'>
                     <p className=' text-center'>
@@ -219,7 +231,7 @@ export default function Voucher() {
                                 <button className='bg-white text-red-500 px-4 py-2 shadow-sm rounded-md mt-2 hover:bg-gray-50 active:bg-gray-500' onClick={(() => {
                                     setIsDeleteVoucher(false);
                                     setDeletedVoucherName([]);
-                                })}>Ngga Jadi</button>
+                                })}>Ga Jadi</button>
                             </>
                         )}
 
