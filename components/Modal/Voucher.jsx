@@ -107,20 +107,20 @@ export default function Voucher() {
         <div className='py-6'>
             <div className='mb-6'>
                 {/* <h1 className='text-xl font-bold mb-2 text-gray-700'>Voucher Aktif</h1> */}
-                <div className='overflow-auto h-40 w-auto'>
+                <div className=' h-48 w-full overflow-x-auto md:overflow-x-hidden'>
                     <table>
                         <thead>
                             <tr>
-                                <th className='sticky w-full top-0 pr-4 bg-white'>
+                                <th className='sticky w-full top-0 px-6 py-2 text-white bg-orange-500'>
                                     Name
                                 </th>
-                                <th className='sticky w-full top-0 pr-4 bg-white'>
+                                <th className='sticky w-full top-0 px-6 py-2 text-white bg-orange-500'>
                                     Code
                                 </th>
-                                <th className='sticky w-full top-0 pr-4 bg-white'>
+                                <th className='sticky w-full top-0 px-6 py-2 text-white bg-orange-500'>
                                     Discount
                                 </th>
-                                <th className='sticky w-full z-50 top-0 pr-4 bg-white'>
+                                <th className='sticky w-full z-50 top-0 px-6 py-2 text-white bg-orange-500'>
                                     Action
                                 </th>
                             </tr>
@@ -129,13 +129,13 @@ export default function Voucher() {
                             {skeletonLoading ? (
                                 <tr>
                                     <td className='py-4 pr-4'>
-                                        <div className='h-5 w-full bg-gray-500 rounded-lg animate-pulse'></div>
+                                        <div className='h-5 w-full bg-gray-300 rounded-lg animate-pulse'></div>
                                     </td>
                                     <td className='py-4 pr-4'>
-                                        <div className='h-5 w-full bg-gray-500 rounded-lg animate-pulse'></div>
+                                        <div className='h-5 w-full bg-gray-300 rounded-lg animate-pulse'></div>
                                     </td>
                                     <td className='py-4 pr-4'>
-                                        <div className='h-5 w-full bg-gray-500 rounded-lg animate-pulse'></div>
+                                        <div className='h-5 w-full bg-gray-300 rounded-lg animate-pulse'></div>
                                     </td>
                                     <td className='py-4 pr-4 space-x-2 flex items-center justify-center'>
 
@@ -153,11 +153,11 @@ export default function Voucher() {
                             ) : null}
                             {getVoucher.map((voucher, index) => {
                                 return (
-                                    <tr key={index}>
-                                        <td className='py-4 pr-4'>{voucher.voucher_name}</td>
-                                        <td className='py-4 pr-4'>{voucher.voucher_code}</td>
-                                        <td className='py-4 pr-4'>{voucher.disc}%</td>
-                                        <td className='py-4 pr-4 space-x-2 flex items-center'>
+                                    <tr key={index} className="border-b">
+                                        <td className='py-4 px-6'>{voucher.voucher_name}</td>
+                                        <td className='py-4 px-6'>{voucher.voucher_code}</td>
+                                        <td className='py-4 px-6'>{voucher.disc}%</td>
+                                        <td className='py-4 px-6 space-x-2 flex items-center'>
                                             {isEditMode ? (
                                                 <button onClick={() => {
                                                     setIsEditMode(false);
