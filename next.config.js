@@ -6,8 +6,6 @@ const nextConfig = {
 module.exports = {
   nextConfig,
   images: {
-    loader: "cloudinary",
     domains: ["res.cloudinary.com"],
-    path: "/",
   },
 };
