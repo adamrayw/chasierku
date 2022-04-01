@@ -7,6 +7,8 @@ import Discount from '../public/assets/discount.png'
 import Label from '../public/assets/label.png'
 import Back from '../public/assets/back.png'
 import Voucher from "./Modal/Voucher";
+import Menu from "./Modal/Menu";
+import Category from "./Modal/Category";
 
 
 export default function NavbarC() {
@@ -94,7 +96,7 @@ export default function NavbarC() {
                                             </button>
                                         </li>
                                         <li>
-                                            <button className='flex items-center w-full shadow px-3 py-4 rounded-xl hover:shadow-lg transition-all'>
+                                            <button className='flex items-center w-full shadow px-3 py-4 rounded-xl hover:shadow-lg transition-all' onClick={() => setIndex(3)}>
                                                 <Image src={Label} width={48} height={48} alt='add-label' />
                                                 <p className='ml-2'>
                                                     Tambah Kategori
@@ -163,6 +165,31 @@ export default function NavbarC() {
                                     </div>
                                     <hr />
                                     <Voucher />
+                                </div>
+                            </div>
+                        </div >
+                    ) : index === 3 ? (
+                        <div className={`modal fixed w-full h-full top-0 left-0 flex items-center justify-center`} >
+                            <div className="modal-overlay absolute w-full h-full bg-gray-900 opacity-50" onClick={() => setActive(false)}></div>
+
+                            <div className="modal-container bg-white md:w-4/12 mx-auto rounded shadow-lg z-10 ">
+
+                                <div className="modal-content py-4 text-left px-6">
+                                    <div className="flex justify-between items-center pb-3">
+                                        <div className="flex items-center space-x-2">
+                                            <button className="w-5 h-5" onClick={() => setIndex(0)}>
+                                                <Image src={Back} width={20} height={20} alt='back' />
+                                            </button>
+                                            <p className="text-2xl font-bold text-gray-600">Tambah Category</p>
+                                        </div>
+                                        <div className="modal-close cursor-pointer z-50" onClick={() => setActive(false)}>
+                                            <svg className="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                                                <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <Category />
                                 </div>
                             </div>
                         </div >
