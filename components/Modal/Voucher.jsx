@@ -107,20 +107,20 @@ export default function Voucher() {
         <div className='py-6'>
             <div className='mb-6'>
                 {/* <h1 className='text-xl font-bold mb-2 text-gray-700'>Voucher Aktif</h1> */}
-                <div className='overflow-auto h-40 w-auto'>
+                <div className=' h-48 w-full overflow-x-auto md:overflow-x-hidden'>
                     <table>
                         <thead>
                             <tr>
-                                <th className='sticky w-full top-0 pr-4 bg-white'>
+                                <th className='sticky w-full top-0 px-6 py-2 text-white bg-orange-500'>
                                     Name
                                 </th>
-                                <th className='sticky w-full top-0 pr-4 bg-white'>
+                                <th className='sticky w-full top-0 px-6 py-2 text-white bg-orange-500'>
                                     Code
                                 </th>
-                                <th className='sticky w-full top-0 pr-4 bg-white'>
+                                <th className='sticky w-full top-0 px-6 py-2 text-white bg-orange-500'>
                                     Discount
                                 </th>
-                                <th className='sticky w-full z-50 top-0 pr-4 bg-white'>
+                                <th className='sticky w-full z-50 top-0 px-6 py-2 text-white bg-orange-500'>
                                     Action
                                 </th>
                             </tr>
@@ -129,13 +129,13 @@ export default function Voucher() {
                             {skeletonLoading ? (
                                 <tr>
                                     <td className='py-4 pr-4'>
-                                        <div className='h-5 w-full bg-gray-500 rounded-lg animate-pulse'></div>
+                                        <div className='h-5 w-full bg-gray-300 rounded-lg animate-pulse'></div>
                                     </td>
                                     <td className='py-4 pr-4'>
-                                        <div className='h-5 w-full bg-gray-500 rounded-lg animate-pulse'></div>
+                                        <div className='h-5 w-full bg-gray-300 rounded-lg animate-pulse'></div>
                                     </td>
                                     <td className='py-4 pr-4'>
-                                        <div className='h-5 w-full bg-gray-500 rounded-lg animate-pulse'></div>
+                                        <div className='h-5 w-full bg-gray-300 rounded-lg animate-pulse'></div>
                                     </td>
                                     <td className='py-4 pr-4 space-x-2 flex items-center justify-center'>
 
@@ -153,23 +153,25 @@ export default function Voucher() {
                             ) : null}
                             {getVoucher.map((voucher, index) => {
                                 return (
-                                    <tr key={index}>
-                                        <td className='py-4 pr-4'>{voucher.voucher_name}</td>
-                                        <td className='py-4 pr-4'>{voucher.voucher_code}</td>
-                                        <td className='py-4 pr-4'>{voucher.disc}%</td>
-                                        <td className='py-4 pr-4 space-x-2 flex items-center'>
+                                    <tr key={index} className="border-b">
+                                        <td className='py-4 px-6'>{voucher.voucher_name}</td>
+                                        <td className='py-4 px-6'>{voucher.voucher_code}</td>
+                                        <td className='py-4 px-6'>{voucher.disc}%</td>
+                                        <td className='py-4 px-6 space-x-2 flex items-center'>
                                             {isEditMode ? (
-                                                <button onClick={() => {
-                                                    setIsEditMode(false);
-                                                    setVoucher({ ...voucher, id: '', voucher_name: '', voucher_code: '', disc: '' })
-                                                }}>
-                                                    X
+                                                <button>
+                                                    <Image src={Edit} width={20} height={20} alt="edit" onClick={() => {
+                                                        setIsEditMode(false);
+                                                        setVoucher({ ...voucher, id: '', voucher_name: '', voucher_code: '', disc: '' })
+
+                                                    }} />
                                                 </button>
                                             ) : (
                                                 <button>
                                                     <Image src={Edit} width={20} height={20} alt="edit" onClick={(() => {
                                                         setVoucher({ ...voucher, id: voucher.id, voucher_name: voucher.voucher_name, voucher_code: voucher.voucher_code, disc: voucher.disc })
                                                         setIsEditMode(true);
+                                                        setIsDeleteVoucher(false);
                                                     })} />
                                                 </button>
                                             )}
@@ -178,6 +180,7 @@ export default function Voucher() {
                                                 <Image src={Delete} width={20} height={20} alt="delete" onClick={(() => {
                                                     setDeletedVoucherName(voucher);
                                                     setIsDeleteVoucher(true);
+                                                    setIsEditMode(false);
                                                 })} />
                                             </button>
                                         </td>
@@ -199,12 +202,21 @@ export default function Voucher() {
                                     }
                                 </>
                             )}
-
-
                         </tbody>
                     </table>
                 </div>
+                {isEditMode ? (
+                    <div className='text-right w-full'>
+                        <button className='bg-gray-600 text-white rounded px-4 py-2 shadow-sm' onClick={() => {
+                            setIsEditMode(false);
+                            setVoucher({ ...voucher, id: '', voucher_name: '', voucher_code: '', disc: '' })
+                        }}>
+                            Tutup Mode Edit
+                        </button>
+                    </div>
+                ) : null}
             </div>
+
             {isDeleteVoucher ? (
                 <div className='bg-orange-500 text-white px-4 py-4'>
                     <p className=' text-center'>
@@ -219,7 +231,7 @@ export default function Voucher() {
                                 <button className='bg-white text-red-500 px-4 py-2 shadow-sm rounded-md mt-2 hover:bg-gray-50 active:bg-gray-500' onClick={(() => {
                                     setIsDeleteVoucher(false);
                                     setDeletedVoucherName([]);
-                                })}>Ngga Jadi</button>
+                                })}>Ga Jadi</button>
                             </>
                         )}
 
@@ -228,7 +240,7 @@ export default function Voucher() {
             ) : null}
 
             <hr />
-            <div className="block mt-6 bg-white max-w-sm">
+            <div className="block mt-6 bg-white max-w-full">
                 <form onSubmit={handleSubmit}>
                     <div className="form-group mb-6">
                         <label htmlFor="nama_voucher" className="form-label inline-block mb-2 text-gray-700">Nama Voucher</label>

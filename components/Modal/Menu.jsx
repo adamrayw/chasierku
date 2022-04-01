@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
+import React, { useState } from 'react'
+import Image from 'next/image'
 
 export default function Menu() {
 
