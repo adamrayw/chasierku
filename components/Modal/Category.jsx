@@ -14,6 +14,9 @@ export default function Category() {
     const [cookie, setCookie] = useCookies(['user']);
     const [category, setCategory] = useState([])
     const [skletonLoading, setSkletonLoading] = useState(false);
+    const [isDeleteCategory, setIsDeleteCategory] = useState(false);
+    const [deleteCategoryName, setDeleteCategoryName] = useState([]);
+    const [loadingDeleteCategory, setLoadingDeleteCategory] = useState(false);
     const [data, setData] = useState({
         user_id: cookie.user.data.id,
         name: '',
@@ -59,14 +62,18 @@ export default function Category() {
 
     const handleDeleteCategory = async (item) => {
         try {
+            setLoadingDeleteCategory(true);
             const response = await axios.delete('/api/category/' + item.id + '/delete');
             getCategory();
+            setLoadingDeleteCategory(false);
+            setIsDeleteCategory(false);
         } catch (error) {
             console.log(error);
+            setLoadingDeleteCategory(false);
         }
     }
     return (
-        <div className="block mt-6 bg-white max-w-full">
+        <div className="block pb-6 mt-6 bg-white max-w-full">
             <div className='pb-6 h-48 overflow-y-auto'>
                 <table>
                     <thead>
@@ -81,49 +88,118 @@ export default function Category() {
                         </tr>
                     </thead>
                     <tbody>
+                        {skletonLoading ? (
+                            <>
+                                <tr>
+                                    <td className='py-4 pr-4'>
+                                        <div className='h-5 w-full bg-gray-300 rounded-lg animate-pulse'></div>
+                                    </td>
+                                    <td className='py-4 pr-4 space-x-2 flex items-center justify-center'>
+                                        <button>
+                                            <Image src={Edit} width={20} height={20} alt="edit" />
+                                        </button>
+                                        <button>
+                                            <Image src={Delete} width={20} height={20} alt="delete" onClick={(() => {
+                                                setDeletedVoucherName(voucher);
+                                                setIsDeleteVoucher(true);
+                                            })} />
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className='py-4 pr-4'>
+                                        <div className='h-5 w-full bg-gray-300 rounded-lg animate-pulse'></div>
+                                    </td>
+                                    <td className='py-4 pr-4 space-x-2 flex items-center justify-center'>
+                                        <button>
+                                            <Image src={Edit} width={20} height={20} alt="edit" />
+                                        </button>
+                                        <button>
+                                            <Image src={Delete} width={20} height={20} alt="delete" onClick={(() => {
+                                                setDeletedVoucherName(voucher);
+                                                setIsDeleteVoucher(true);
+                                            })} />
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className='py-4 pr-4'>
+                                        <div className='h-5 w-full bg-gray-300 rounded-lg animate-pulse'></div>
+                                    </td>
+                                    <td className='py-4 pr-4 space-x-2 flex items-center justify-center'>
+                                        <button>
+                                            <Image src={Edit} width={20} height={20} alt="edit" />
+                                        </button>
+                                        <button>
+                                            <Image src={Delete} width={20} height={20} alt="delete" onClick={(() => {
+                                                setDeletedVoucherName(voucher);
+                                                setIsDeleteVoucher(true);
+                                            })} />
+                                        </button>
+                                    </td>
+                                </tr>
+                            </>
+
+                        ) : null}
                         {category.map((item) => {
                             return (
-                                <>
-                                    {skletonLoading ? (
-                                        <tr>
-                                            <td className='py-4 pr-4'>
-                                                <div className='h-5 w-full bg-gray-300 rounded-lg animate-pulse'></div>
-                                            </td>
-                                            <td className='py-4 pr-4 space-x-2 flex items-center justify-center'>
-
-                                                <button>
-                                                    <Image src={Edit} width={20} height={20} alt="edit" />
-                                                </button>
-                                                <button>
-                                                    <Image src={Delete} width={20} height={20} alt="delete" onClick={(() => {
-                                                        setDeletedVoucherName(voucher);
-                                                        setIsDeleteVoucher(true);
-                                                    })} />
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ) : (
-                                        <tr key={item.id}>
-                                            <td className='px-6 py-4'>
-                                                {item.name}
-                                            </td>
-                                            <td className='py-4 pr-4 space-x-2 flex items-center justify-center'>
-                                                <button>
-                                                    <Image src={Edit} width={20} height={20} alt="edit" />
-                                                </button>
-                                                <button>
-                                                    <Image src={Delete} width={20} height={20} alt="delete" onClick={() => handleDeleteCategory(item)} />
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    )}
-
-                                </>
+                                <tr key={item.id}>
+                                    <td className='px-6 py-4'>
+                                        {item.name}
+                                    </td>
+                                    <td className='py-4 pr-4 space-x-2 flex items-center justify-center'>
+                                        <button>
+                                            <Image src={Edit} width={20} height={20} alt="edit" />
+                                        </button>
+                                        <button>
+                                            <Image src={Delete} width={20} height={20} alt="delete" onClick={() => {
+                                                setIsDeleteCategory(true)
+                                                setDeleteCategoryName(item)
+                                            }} />
+                                        </button>
+                                    </td>
+                                </tr>
                             )
                         })}
+                        {skletonLoading ? null : (
+                            <>
+                                {
+                                    category.length < 1 ? (
+                                        <tr>
+                                            <td className='py-4 pr-4' colSpan={2}>
+                                                <div className='text-center'>
+                                                    <p className='text-gray-700'>Tidak ada category</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ) : null
+                                }
+                            </>
+                        )}
                     </tbody>
                 </table>
             </div>
+            {isDeleteCategory ? (
+                <div className='bg-orange-500 text-white px-4 py-4'>
+                    <p className=' text-center'>
+                        {`Dengan men-delete category ${deleteCategoryName.name} semua menu yang berkategori ${deleteCategoryName.name} akan terhapus semua`}
+                    </p>
+                    <div className='flex items-center mt-4 justify-around'>
+                        {loadingDeleteCategory ? (
+                            <Image className='animate-spin ' src={Spinner} width={20} height={20} alt="spinner" />
+                        ) : (
+                            <>
+                                <button className='bg-white text-red-500 px-4 py-2 shadow-sm rounded-md mt-2 hover:bg-gray-50 active:bg-gray-500' onClick={() => handleDeleteCategory(deleteCategoryName)}>Mengerti</button>
+                                <button className='bg-white text-red-500 px-4 py-2 shadow-sm rounded-md mt-2 hover:bg-gray-50 active:bg-gray-500' onClick={(() => {
+                                    setIsDeleteCategory(false);
+                                    setDeleteCategoryName([]);
+                                })}>Ga Jadi Delete</button>
+                            </>
+                        )}
+
+                    </div>
+                </div>
+            ) : null}
             <hr />
             <form onSubmit={handleSubmit}>
                 <div className="form-group my-6">
