@@ -112,7 +112,7 @@ export default function NavbarC() {
                         <div className={`modal fixed w-full h-full top-0 left-0 flex items-center justify-center`} >
                             <div className="modal-overlay absolute w-full h-full bg-gray-900 opacity-50" onClick={() => setActive(false)}></div>
 
-                            <div className="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-10 overflow-y-auto">
+                            <div className="modal-container bg-white md:w-4/12 mx-auto rounded shadow-lg z-10 overflow-y-auto">
 
                                 <div className="modal-content py-4 text-left px-6">
                                     <div className="flex justify-between items-center pb-3">
@@ -137,7 +137,7 @@ export default function NavbarC() {
                         <div className={`modal fixed w-full h-full top-0 left-0 flex items-center justify-center`} >
                             <div className="modal-overlay absolute w-full h-full bg-gray-900 opacity-50" onClick={() => setActive(false)}></div>
 
-                            <div className="modal-container bg-white md:w-auto w-11/12 mx-auto rounded shadow-lg z-10 ">
+                            <div className="modal-container bg-white md:w-4/12 mx-auto rounded shadow-lg z-10 ">
 
                                 <div className="modal-content py-4 text-left px-6">
                                     <div className="flex justify-between items-center pb-3">
