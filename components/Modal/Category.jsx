@@ -32,21 +32,32 @@ export default function Category() {
         }
     }
 
-    const handleSubmit = (e) => {
+
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
             setLoading(true);
-            const response = axios.post('/api/category', data);
-            setLoading(false);
+            const response = await axios.post('/api/category', data);
             setSuccess(true);
             setTimeout(() => {
                 setSuccess(false);
             }, 2000)
             getCategory();
+            setLoading(false);
         } catch (error) {
             console.log(error);
             setLoading(false);
+        }
+    }
+
+    const handleDeleteCategory = async (item) => {
+        try {
+            const response = await axios.delete('/api/category/' + item.id + '/delete');
+            getCategory();
+        } catch (error) {
+            console.log(error);
         }
     }
     return (
@@ -76,7 +87,7 @@ export default function Category() {
                                             <Image src={Edit} width={20} height={20} alt="edit" />
                                         </button>
                                         <button>
-                                            <Image src={Delete} width={20} height={20} alt="delete" />
+                                            <Image src={Delete} width={20} height={20} alt="delete" onClick={() => handleDeleteCategory(item)} />
                                         </button>
                                     </td>
                                 </tr>
