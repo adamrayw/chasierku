@@ -13,6 +13,7 @@ export default function Category() {
     const [success, setSuccess] = useState(false);
     const [cookie, setCookie] = useCookies(['user']);
     const [category, setCategory] = useState([])
+    const [skletonLoading, setSkletonLoading] = useState(false);
     const [data, setData] = useState({
         user_id: cookie.user.data.id,
         name: '',
@@ -25,10 +26,13 @@ export default function Category() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const getCategory = async () => {
         try {
+            setSkletonLoading(true);
             const response = await axios.get('/api/category/' + cookie.user.data.id);
             setCategory(response.data.data.categories);
+            setSkletonLoading(false);
         } catch (error) {
             console.log(error);
+            setSkletonLoading(false);
         }
     }
 
@@ -46,6 +50,7 @@ export default function Category() {
             }, 2000)
             getCategory();
             setLoading(false);
+            setData({ ...data, name: '' })
         } catch (error) {
             console.log(error);
             setLoading(false);
@@ -66,11 +71,11 @@ export default function Category() {
                 <table>
                     <thead>
                         <tr>
-                            <th className='sticky w-full top-0 px-6 py-2 text-white bg-orange-500'>
+                            <th className='sticky w-full top-0 z-50 px-6 py-2 text-white bg-orange-500'>
                                 Nama
                             </th>
 
-                            <th className='sticky w-full z-50 top-0 px-6 py-2 text-white bg-orange-500'>
+                            <th className='sticky w-full z-50 top-0 z-50 px-6 py-2 text-white bg-orange-500'>
                                 Action
                             </th>
                         </tr>
@@ -78,19 +83,42 @@ export default function Category() {
                     <tbody>
                         {category.map((item) => {
                             return (
-                                <tr key={item.id}>
-                                    <td className='px-6 py-4'>
-                                        {item.name}
-                                    </td>
-                                    <td className='py-4 pr-4 space-x-2 flex items-center justify-center'>
-                                        <button>
-                                            <Image src={Edit} width={20} height={20} alt="edit" />
-                                        </button>
-                                        <button>
-                                            <Image src={Delete} width={20} height={20} alt="delete" onClick={() => handleDeleteCategory(item)} />
-                                        </button>
-                                    </td>
-                                </tr>
+                                <>
+                                    {skletonLoading ? (
+                                        <tr>
+                                            <td className='py-4 pr-4'>
+                                                <div className='h-5 w-full bg-gray-300 rounded-lg animate-pulse'></div>
+                                            </td>
+                                            <td className='py-4 pr-4 space-x-2 flex items-center justify-center'>
+
+                                                <button>
+                                                    <Image src={Edit} width={20} height={20} alt="edit" />
+                                                </button>
+                                                <button>
+                                                    <Image src={Delete} width={20} height={20} alt="delete" onClick={(() => {
+                                                        setDeletedVoucherName(voucher);
+                                                        setIsDeleteVoucher(true);
+                                                    })} />
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ) : (
+                                        <tr key={item.id}>
+                                            <td className='px-6 py-4'>
+                                                {item.name}
+                                            </td>
+                                            <td className='py-4 pr-4 space-x-2 flex items-center justify-center'>
+                                                <button>
+                                                    <Image src={Edit} width={20} height={20} alt="edit" />
+                                                </button>
+                                                <button>
+                                                    <Image src={Delete} width={20} height={20} alt="delete" onClick={() => handleDeleteCategory(item)} />
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    )}
+
+                                </>
                             )
                         })}
                     </tbody>
@@ -101,7 +129,7 @@ export default function Category() {
                 <div className="form-group my-6">
                     <label htmlFor="nama_voucher" className="form-label inline-block mb-2 text-gray-700">Nama Category</label>
                     <input type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange-600 focus:outline-none"
-                        aria-describedby="voucher" placeholder="Nama Menu" required onChange={(e) => setData({ ...data, name: e.target.value })} />
+                        aria-describedby="voucher" value={data.name} required onChange={(e) => setData({ ...data, name: e.target.value })} />
                     <small id="voucher" className="block mt-1 text-xs text-gray-600">contoh: Coffee, Soft Drink etc</small>
                 </div>
 
@@ -125,6 +153,6 @@ export default function Category() {
                     <p className='text-center mt-10 text-green-500'>Category Berhasil Ditambahkan!</p>
                 ) : ''}
             </form>
-        </div>
+        </div >
     )
 }
