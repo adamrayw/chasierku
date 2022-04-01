@@ -1,3 +1,7 @@
+import React, { useState, useEffect } from 'react'
+import Image from 'next/image'
+import axios from 'axios';
+import { useCookies } from 'react-cookie';
 import React, { useState } from 'react'
 import Image from 'next/image'
 
@@ -6,10 +10,52 @@ export default function Menu() {
     const [isEditMode, setIsEditMode] = useState(false);
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
+    const [cookie, setCookie] = useCookies(['user']);
+    const [menu, setMenu] = useState([])
+
+    useEffect(() => {
+        getMenus();
+    }, [getMenus]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const getMenus = async () => {
+        try {
+            const response = await axios.get('/api/menu/' + cookie.user.data.id);
+            console.log(response);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     const handleSubmit = () => { }
     return (
         <div className="block mt-6 bg-white max-w-full">
+            <div className='py-6'>
+                <table>
+                    <thead>
+                        <tr>
+                            <th className='sticky w-full top-0 px-6 py-2 text-white bg-orange-500'>
+                                Image
+                            </th>
+                            <th className='sticky w-full top-0 px-6 py-2 text-white bg-orange-500'>
+                                Name
+                            </th>
+                            <th className='sticky w-full top-0 px-6 py-2 text-white bg-orange-500'>
+                                Price
+                            </th>
+                            <th className='sticky w-full z-50 top-0 px-6 py-2 text-white bg-orange-500'>
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td className='px-6 py-4'>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             <form onSubmit={handleSubmit}>
                 <div className="form-group mb-6">
                     <label htmlFor="nama_voucher" className="form-label inline-block mb-2 text-gray-700">Nama Menu</label>
