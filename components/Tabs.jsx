@@ -4,6 +4,7 @@ import { useCookies } from "react-cookie"
 
 export default function Tabs() {
     const [cookie, setCookie] = useCookies(['user']);
+    const [skletonLoading, setSkeltonLoading] = useState(false);
     const [category, setCategory] = useState([]);
 
     useEffect(() => {
@@ -12,15 +13,28 @@ export default function Tabs() {
 
     const getCategory = async () => {
         try {
+            setSkeltonLoading(true);
             const response = await axios.get('/api/category/' + cookie.user.data.id);
             setCategory(response.data.data.categories);
+            setSkeltonLoading(false);
         } catch (error) {
             console.log(error);
+            setSkeltonLoading(false);
         }
     }
 
     return (
-        <div className="flex items-center space-x-4 mt-5 overflow-auto">
+        <div className="flex items-center space-x-4 mt-5 overflow-x-auto">
+            {skletonLoading ? (
+                <>
+                    <div className="w-40 h-12 bg-gray-300 rounded animate-pulse"></div>
+                    <div className="w-40 h-12 bg-gray-300 rounded animate-pulse"></div>
+                    <div className="w-40 h-12 bg-gray-300 rounded animate-pulse"></div>
+                    <div className="w-40 h-12 bg-gray-300 rounded animate-pulse"></div>
+                    <div className="w-40 h-12 bg-gray-300 rounded animate-pulse"></div>
+                    <div className="w-40 h-12 bg-gray-300 rounded animate-pulse"></div>
+                </>
+            ) : null}
             {category.map((item) => {
                 return (
                     <div key={item.id}>
