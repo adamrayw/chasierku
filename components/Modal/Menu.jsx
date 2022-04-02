@@ -66,20 +66,20 @@ export default function Menu() {
     }
     return (
         <div className="block pb-6 bg-white max-w-full">
-            <div className='py-6'>
+            <div className='pb-6 overflow-auto h-64'>
                 <table>
                     <thead>
                         <tr>
-                            <th className='sticky w-full top-0 px-6 py-2 text-white bg-orange-500'>
+                            <th className='sticky w-full z-50 top-0 px-6 py-2 text-white bg-orange-500'>
                                 Gambar
                             </th>
-                            <th className='sticky w-full top-0 px-6 py-2 text-white bg-orange-500'>
+                            <th className='sticky w-full z-50 top-0 px-6 py-2 text-white bg-orange-500'>
                                 Name
                             </th>
-                            <th className='sticky w-full top-0 px-6 py-2 text-white bg-orange-500'>
+                            <th className='sticky w-full z-50 top-0 px-6 py-2 text-white bg-orange-500'>
                                 Harga
                             </th>
-                            <th className='sticky w-full z-50 top-0 px-6 py-2 text-white bg-orange-500'>
+                            <th className='sticky w-full z-50 z-50 top-0 px-6 py-2 text-white bg-orange-500'>
                                 Action
                             </th>
                         </tr>
