@@ -65,8 +65,11 @@ export default function Menu() {
         }
     }
     return (
-        <div className="block pb-6 bg-white max-w-full">
-            <div className='pb-6 overflow-auto h-64'>
+        <div className="block flex flex-col md:flex-row justify-between pb-6 space-x-6 bg-white w-full">
+            <div className='mt-6 overflow-y-scroll h-96'>
+                <div>
+                    <h2 className='text-xl font-bold text-gray-600 mb-2'>Menu</h2>
+                </div>
                 <table>
                     <thead>
                         <tr>
@@ -95,7 +98,7 @@ export default function Menu() {
                                         {item.name}
                                     </td>
                                     <td className='px-6 py-4'>
-                                        {item.price}
+                                        Rp{new Intl.NumberFormat(['ban', 'id']).format(item.price)}
                                     </td>
                                 </tr>
                             )
@@ -103,8 +106,11 @@ export default function Menu() {
                     </tbody>
                 </table>
             </div>
-            <hr />
-            <div className="block mt-6 bg-white max-w-full">
+            <div className="block mt-6 bg-white">
+                <div>
+                    <h2 className='text-xl font-bold text-gray-600 mb-2'>Tambah Menu</h2>
+                    <hr className='mb-4' />
+                </div>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group mb-6">
                         <label htmlFor="nama_voucher" className="form-label inline-block mb-2 text-gray-700">Nama Menu</label>
