@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import axios from 'axios';
+import Spinner from '../../public/assets/spinner.png';
 import { useCookies } from 'react-cookie';
 
 export default function Menu() {
@@ -8,6 +9,7 @@ export default function Menu() {
     const [isEditMode, setIsEditMode] = useState(false);
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
+    const [skletonLoading, setSkeltonLoading] = useState(true);
     const [cookie, setCookie] = useCookies(['user']);
     const [menu, setMenu] = useState([])
     const [categories, setCategories] = useState([])
@@ -27,8 +29,10 @@ export default function Menu() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const getMenus = async () => {
         try {
+            setSkeltonLoading(true);
             const response = await axios.get('/api/menu/' + cookie.user.data.id);
             setMenu(response.data.data.menus);
+            setSkeltonLoading(false);
         } catch (error) {
             console.log(error);
         }
@@ -55,13 +59,13 @@ export default function Menu() {
         formData.append('price', holdDataMenu.price);
         formData.append('image', holdDataMenu.image);
 
-        console.log(formData);
         try {
+            setLoading(true);
             const response = await axios.post('api/menu', formData);
             getMenus();
-            console.log(response);
+            setLoading(false);
         } catch (error) {
-            console.log(response);
+            console.log(error);
         }
     }
     return (
@@ -88,6 +92,43 @@ export default function Menu() {
                         </tr>
                     </thead>
                     <tbody>
+                        {skletonLoading ? (
+                            <>
+                                <tr>
+                                    <td className='px-6 py-4'>
+                                        <div className='h-6 px-6 py-4 bg-gray-300 animate-pulse'></div>
+                                    </td>
+                                    <td className='px-6 py-4'>
+                                        <div className='h-6 px-6 py-4 bg-gray-300 animate-pulse'></div>
+                                    </td>
+                                    <td className='px-6 py-4'>
+                                        <div className='h-6 px-6 py-4 bg-gray-300 animate-pulse'></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className='px-6 py-4'>
+                                        <div className='h-6 px-6 py-4 bg-gray-300 animate-pulse'></div>
+                                    </td>
+                                    <td className='px-6 py-4'>
+                                        <div className='h-6 px-6 py-4 bg-gray-300 animate-pulse'></div>
+                                    </td>
+                                    <td className='px-6 py-4'>
+                                        <div className='h-6 px-6 py-4 bg-gray-300 animate-pulse'></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className='px-6 py-4'>
+                                        <div className='h-6 px-6 py-4 bg-gray-300 animate-pulse'></div>
+                                    </td>
+                                    <td className='px-6 py-4'>
+                                        <div className='h-6 px-6 py-4 bg-gray-300 animate-pulse'></div>
+                                    </td>
+                                    <td className='px-6 py-4'>
+                                        <div className='h-6 px-6 py-4 bg-gray-300 animate-pulse'></div>
+                                    </td>
+                                </tr>
+                            </>
+                        ) : null}
                         {menu.map((item) => {
                             return (
                                 <tr key={item.id}>
