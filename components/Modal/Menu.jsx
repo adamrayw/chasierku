@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import axios from 'axios';
+import Edit from '../../public/assets/edit.png';
 import Spinner from '../../public/assets/spinner.png';
+import Delete from '../../public/assets/delete.png';
 import { useCookies } from 'react-cookie';
 
 export default function Menu() {
 
     const [isEditMode, setIsEditMode] = useState(false);
+    const [isDeleteMenu, setIsDeleteMenu] = useState(false);
+    const [deleteMenu, setDeleteMenu] = useState([]);
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
+    const [loadingDeleteMenu, setLoadingDeleteMenu] = useState(false);
     const [skletonLoading, setSkeltonLoading] = useState(true);
     const [cookie, setCookie] = useCookies(['user']);
     const [menu, setMenu] = useState([])
@@ -48,6 +53,21 @@ export default function Menu() {
         }
     }
 
+    const handleDeleteMenu = async () => {
+        try {
+            setLoadingDeleteMenu(true);
+            const response = await axios.delete('/api/menu/' + deleteMenu.id + '/delete');
+            console.log(response);
+            getMenus();
+            setLoadingDeleteMenu(false);
+            setDeleteMenu([]);
+            setIsDeleteMenu(false);
+        } catch (error) {
+            console.log(error);
+            setLoadingDeleteMenu(false);
+        }
+    }
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -70,83 +90,123 @@ export default function Menu() {
     }
     return (
         <div className="block flex flex-col md:flex-row justify-between pb-6 space-x-6 bg-white w-full">
-            <div className='mt-6 overflow-y-scroll h-96'>
+            <div>
                 <div>
-                    <h2 className='text-xl font-bold text-gray-600 mb-2'>Menu</h2>
+                    <div className='mt-6 overflow-y-scroll h-96'>
+                        <div>
+                            <h2 className='text-xl font-bold text-gray-600 mb-2'>Menu</h2>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th className='sticky w-full z-50 top-0 px-6 py-2 text-white bg-orange-500'>
+                                        Gambar
+                                    </th>
+                                    <th className='sticky w-full z-50 top-0 px-6 py-2 text-white bg-orange-500'>
+                                        Name
+                                    </th>
+                                    <th className='sticky w-full z-50 top-0 px-6 py-2 text-white bg-orange-500'>
+                                        Harga
+                                    </th>
+                                    <th className='sticky w-full z-50 z-50 top-0 px-6 py-2 text-white bg-orange-500'>
+                                        Action
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {skletonLoading ? (
+                                    <>
+                                        <tr>
+                                            <td className='px-6 py-4'>
+                                                <div className='h-6 px-6 py-4 bg-gray-300 animate-pulse'></div>
+                                            </td>
+                                            <td className='px-6 py-4'>
+                                                <div className='h-6 px-6 py-4 bg-gray-300 animate-pulse'></div>
+                                            </td>
+                                            <td className='px-6 py-4'>
+                                                <div className='h-6 px-6 py-4 bg-gray-300 animate-pulse'></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td className='px-6 py-4'>
+                                                <div className='h-6 px-6 py-4 bg-gray-300 animate-pulse'></div>
+                                            </td>
+                                            <td className='px-6 py-4'>
+                                                <div className='h-6 px-6 py-4 bg-gray-300 animate-pulse'></div>
+                                            </td>
+                                            <td className='px-6 py-4'>
+                                                <div className='h-6 px-6 py-4 bg-gray-300 animate-pulse'></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td className='px-6 py-4'>
+                                                <div className='h-6 px-6 py-4 bg-gray-300 animate-pulse'></div>
+                                            </td>
+                                            <td className='px-6 py-4'>
+                                                <div className='h-6 px-6 py-4 bg-gray-300 animate-pulse'></div>
+                                            </td>
+                                            <td className='px-6 py-4'>
+                                                <div className='h-6 px-6 py-4 bg-gray-300 animate-pulse'></div>
+                                            </td>
+                                        </tr>
+                                    </>
+                                ) : null}
+                                {menu.map((item) => {
+                                    return (
+                                        <tr key={item.id}>
+                                            <td className='px-6 py-4'>
+                                                <Image loader={() => item.image} src={item.image} width={60} height={60} unoptimized alt="logo" />
+                                            </td>
+                                            <td className='px-6 py-4'>
+                                                {item.name}
+                                            </td>
+                                            <td className='px-6 py-4'>
+                                                Rp{new Intl.NumberFormat(['ban', 'id']).format(item.price)}
+                                            </td>
+                                            <td className='py-4 pr-4 space-x-2 flex items-center justify-center'>
+                                                <button>
+                                                    <Image src={Edit} width={20} height={20} alt="edit" />
+                                                </button>
+                                                <button>
+                                                    <Image src={Delete} width={20} height={20} alt="delete" onClick={() => {
+                                                        setIsDeleteMenu(true)
+                                                        setDeleteMenu(item)
+                                                    }} />
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    )
+                                })}
+                            </tbody>
+                        </table>
+
+                    </div>
                 </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th className='sticky w-full z-50 top-0 px-6 py-2 text-white bg-orange-500'>
-                                Gambar
-                            </th>
-                            <th className='sticky w-full z-50 top-0 px-6 py-2 text-white bg-orange-500'>
-                                Name
-                            </th>
-                            <th className='sticky w-full z-50 top-0 px-6 py-2 text-white bg-orange-500'>
-                                Harga
-                            </th>
-                            <th className='sticky w-full z-50 z-50 top-0 px-6 py-2 text-white bg-orange-500'>
-                                Action
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {skletonLoading ? (
-                            <>
-                                <tr>
-                                    <td className='px-6 py-4'>
-                                        <div className='h-6 px-6 py-4 bg-gray-300 animate-pulse'></div>
-                                    </td>
-                                    <td className='px-6 py-4'>
-                                        <div className='h-6 px-6 py-4 bg-gray-300 animate-pulse'></div>
-                                    </td>
-                                    <td className='px-6 py-4'>
-                                        <div className='h-6 px-6 py-4 bg-gray-300 animate-pulse'></div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className='px-6 py-4'>
-                                        <div className='h-6 px-6 py-4 bg-gray-300 animate-pulse'></div>
-                                    </td>
-                                    <td className='px-6 py-4'>
-                                        <div className='h-6 px-6 py-4 bg-gray-300 animate-pulse'></div>
-                                    </td>
-                                    <td className='px-6 py-4'>
-                                        <div className='h-6 px-6 py-4 bg-gray-300 animate-pulse'></div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className='px-6 py-4'>
-                                        <div className='h-6 px-6 py-4 bg-gray-300 animate-pulse'></div>
-                                    </td>
-                                    <td className='px-6 py-4'>
-                                        <div className='h-6 px-6 py-4 bg-gray-300 animate-pulse'></div>
-                                    </td>
-                                    <td className='px-6 py-4'>
-                                        <div className='h-6 px-6 py-4 bg-gray-300 animate-pulse'></div>
-                                    </td>
-                                </tr>
-                            </>
-                        ) : null}
-                        {menu.map((item) => {
-                            return (
-                                <tr key={item.id}>
-                                    <td className='px-6 py-4'>
-                                        <Image loader={() => item.image} src={item.image} width={60} height={60} unoptimized alt="logo" />
-                                    </td>
-                                    <td className='px-6 py-4'>
-                                        {item.name}
-                                    </td>
-                                    <td className='px-6 py-4'>
-                                        Rp{new Intl.NumberFormat(['ban', 'id']).format(item.price)}
-                                    </td>
-                                </tr>
-                            )
-                        })}
-                    </tbody>
-                </table>
+                <div>
+                    {isDeleteMenu ? (
+                        <div className='bg-orange-500 text-white px-4 py-4'>
+                            <p className=' text-center'>
+                                {`Yakin ingin menghapus menu ${deleteMenu.name}?`}
+                            </p>
+                            <div className='flex items-center mt-4 justify-around'>
+                                {loadingDeleteMenu ? (
+                                    <Image className='animate-spin ' src={Spinner} width={20} height={20} alt="spinner" />
+                                ) : (
+                                    <>
+                                        <button className='bg-white text-red-500 px-4 py-2 shadow-sm rounded-md mt-2 hover:bg-gray-50 active:bg-gray-500' onClick={() => handleDeleteMenu(deleteMenu)}>Ya, yakin</button>
+                                        <button className='bg-white text-red-500 px-4 py-2 shadow-sm rounded-md mt-2 hover:bg-gray-50 active:bg-gray-500' onClick={(() => {
+                                            setIsDeleteMenu(false);
+                                            setDeleteMenu([]);
+                                        })}>Ga Jadi</button>
+                                    </>
+                                )}
+
+                            </div>
+                        </div>
+                    ) : null}
+                </div>
             </div>
+
             <div className="block mt-6 bg-white">
                 <div>
                     <h2 className='text-xl font-bold text-gray-600 mb-2'>Tambah Menu</h2>
