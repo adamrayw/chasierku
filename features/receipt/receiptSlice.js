@@ -36,7 +36,7 @@ export const receiptSlice = createSlice({
         (cartSubtotal, cartItem) => {
           const { price, qty } = cartItem;
 
-          cartSubtotal.subtotal += price;
+          cartSubtotal.subtotal += Number(price);
 
           return cartSubtotal;
         },
