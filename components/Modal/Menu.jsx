@@ -83,9 +83,12 @@ export default function Menu() {
             setLoading(true);
             const response = await axios.post('api/menu', formData);
             getMenus();
+            setHoldDataMenu({ ...holdDataMenu, user_id: '', category_id: '', name: '', price: '', image: '' });
+            set
             setLoading(false);
         } catch (error) {
             console.log(error);
+            setLoading(false);
         }
     }
     return (
@@ -215,27 +218,41 @@ export default function Menu() {
                 <form onSubmit={handleSubmit}>
                     <div className="form-group mb-6">
                         <label htmlFor="nama_voucher" className="form-label inline-block mb-2 text-gray-700">Nama Menu</label>
-                        <input type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange-600 focus:outline-none"
-                            aria-describedby="voucher" placeholder="Nama Menu" required
+                        <input
+                            type="text"
+                            className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange-600 focus:outline-none"
+                            aria-describedby="voucher"
+                            placeholder="Nama Menu"
+                            required
+                            value={holdDataMenu.name}
                             onChange={(e) => setHoldDataMenu({ ...holdDataMenu, name: e.target.value })} />
                         <small id="voucher" className="block mt-1 text-xs text-gray-600">contoh: Coca - cola</small>
                     </div>
                     <div className="form-group mb-6">
                         <label htmlFor="voucher_code" className="form-label inline-block mb-2 text-gray-700">Gambar</label>
-                        <input type="file" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange-600 focus:outline-none"
+                        <input
+                            type="file"
+                            className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange-600 focus:outline-none"
                             onChange={(e) => setHoldDataMenu({ ...holdDataMenu, image: e.target.files[0] })}
                         />
                     </div>
                     <div className="form-group mb-6">
                         <label htmlFor="jumlah_diskon" className="form-label inline-block mb-2 text-gray-700">Harga</label>
-                        <input type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange-600 focus:outline-none"
-                            placeholder="Harga Menu" required
+                        <input
+                            type="text"
+                            className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange-600 focus:outline-none"
+                            placeholder="Harga Menu"
+                            value={holdDataMenu.price}
+                            required
                             onChange={(e) => setHoldDataMenu({ ...holdDataMenu, price: e.target.value })} />
                         <small id="jumlah_diskon" className="block mt-1 text-xs text-gray-600">contoh: 40000 = Rp40,000</small>
                     </div>
                     <div className="form-group mb-6">
                         <label htmlFor="category" className="form-label inline-block mb-2 text-gray-700">Category</label>
-                        <select className="form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" onChange={(e) => setHoldDataMenu({ ...holdDataMenu, category_id: e.target.value })}>
+                        <select
+                            className="form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                            value={holdDataMenu.category}
+                            onChange={(e) => setHoldDataMenu({ ...holdDataMenu, category_id: e.target.value })}>
                             <option defaultValue={0}>Pilih Category</option>
                             {categories.map((item) => {
                                 return (
