@@ -92,7 +92,7 @@ export default function Menu() {
         }
     }
     return (
-        <div className="block flex flex-col md:flex-row justify-between pb-6 space-x-6 bg-white w-full">
+        <div className="flex flex-col md:flex-row justify-between pb-6 space-x-6 bg-white w-full">
             <div>
                 <div>
                     <div className='mt-6 overflow-y-scroll h-96'>
@@ -111,7 +111,7 @@ export default function Menu() {
                                     <th className='sticky w-full z-50 top-0 px-6 py-2 text-white bg-orange-500'>
                                         Harga
                                     </th>
-                                    <th className='sticky w-full z-50 z-50 top-0 px-6 py-2 text-white bg-orange-500'>
+                                    <th className='sticky w-full z-50 top-0 px-6 py-2 text-white bg-orange-500'>
                                         Action
                                     </th>
                                 </tr>
