@@ -14,7 +14,7 @@ export default function Receipt() {
         dispatch(getVoucher());
     }, [dispatch])
 
-    let total = subtotal.subTotal + subtotal.subTotal * 10.0 / 100;
+    let total = subtotal.subTotal + subtotal.subTotal * 11.0 / 100;
 
     if (subtotal.isVoucher.isTrue) {
         let potongan = (subtotal.isVoucher.value.disc / 100) * total;
@@ -65,8 +65,8 @@ export default function Receipt() {
                     </h2>
                 </div>
                 <div className="ppn mt-2 flex justify-between items-center">
-                    <p className="text-gray-400">PPN 10%</p>
-                    <p className="text-gray-400">+ Rp{new Intl.NumberFormat(['ban', 'id']).format(subtotal.subTotal * 10.0 / 100)}</p>
+                    <p className="text-gray-400">PPN 11%</p>
+                    <p className="text-gray-400">+ Rp{new Intl.NumberFormat(['ban', 'id']).format(subtotal.subTotal * 11.0 / 100)}</p>
                 </div>
                 {(subtotal.isVoucher.isTrue) ? (
                     <div className="ppn mt-2 flex justify-between items-center">
