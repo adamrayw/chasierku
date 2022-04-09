@@ -50,6 +50,11 @@ export default function Login() {
                 maxAge: 3600,
                 sameSite: true,
             })
+            setCookie('tabs', 0, {
+                path: '/',
+                maxAge: 3600,
+                sameSite: true,
+            })
             setIsLoading(false);
             router.push('/');
 
