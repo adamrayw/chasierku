@@ -50,7 +50,7 @@ export default function Login() {
                 maxAge: 3600,
                 sameSite: true,
             })
-            setCookie('tabs', 0, {
+            setCookie('tabs', 'default', {
                 path: '/',
                 maxAge: 3600,
                 sameSite: true,
