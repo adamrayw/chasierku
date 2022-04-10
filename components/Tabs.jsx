@@ -1,16 +1,23 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { useCookies } from "react-cookie"
+import { useDispatch } from "react-redux";
+import { changeTab } from "../features/receipt/receiptSlice";
 
 export default function Tabs() {
     const [cookie, setCookie] = useCookies(['user']);
+    const [cookieTab, setCookieTab] = useCookies(['tabs']);
     const [skletonLoading, setSkeltonLoading] = useState(false);
     const [category, setCategory] = useState([]);
 
+    const dispatch = useDispatch();
+
     useEffect(() => {
         getCategory();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const getCategory = async () => {
         try {
             setSkeltonLoading(true);
@@ -25,6 +32,12 @@ export default function Tabs() {
 
     return (
         <div className="flex items-center space-x-4 mt-5 overflow-x-auto">
+            <button className={`text-gray-600 font-bold shadow-sm w-40 py-3 px-6 rounded transition-all focus:bg-gray-300 bg-opacity-60 border border-transparent focus:border focus:text-white focus:border-blue-400 ${cookieTab.tabs === 'default' ? 'bg-gray-300 text-white' : 'bg-white'}`} onClick={() => {
+                setCookieTab('tabs', 'default')
+                dispatch(changeTab('default'));
+            }}>
+                Semua
+            </button>
             {skletonLoading ? (
                 <>
                     <div className="w-40 h-12 bg-gray-300 rounded animate-pulse"></div>
@@ -38,7 +51,11 @@ export default function Tabs() {
             {category.map((item) => {
                 return (
                     <div key={item.id}>
-                        <button className="text-gray-600 font-bold bg-white shadow-sm w-40 py-3 px-6 rounded transition-all focus:bg-gray-300 bg-opacity-60 border border-transparent focus:border focus:text-white focus:border-blue-400">
+                        <button className={`text-gray-600 font-bold shadow-sm w-40 py-3 px-6 rounded transition-all focus:bg-gray-300 bg-opacity-60 border border-transparent focus:border focus:text-white focus:border-blue-400 ${cookieTab.tabs == item.id ? 'bg-gray-300 text-white' : 'bg-white'}`} onClick={() => {
+                            setCookieTab('tabs', item.id)
+                            dispatch(changeTab(item.id))
+
+                        }}>
                             {item.name}
                         </button>
                     </div>
