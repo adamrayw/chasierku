@@ -8,33 +8,52 @@ import axios from "axios";
 
 export default function Menu() {
     const [cookie, setCookie] = useCookies(["user"]);
+    const [cookieTab, setCookieTab] = useCookies(["tabs"]);
     const [menus, setMenus] = useState([]);
     const [skletonLoading, setSkeletonLoading] = useState(false);
 
     const value = useSelector((state) => state.receipt.value);
+    const currentIndex = useSelector((state) => state.receipt.tab);
+
     const dispatch = useDispatch();
+
+    console.log(currentIndex);
 
     useEffect(() => {
         dispatch(getSubtotal());
     }, [dispatch, value])
 
     useEffect(() => {
+        setMenus([]);
         getMainMenu();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [currentIndex])
 
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const getMainMenu = async () => {
-        try {
-            setSkeletonLoading(true);
-            const response = await axios.get('/api/menu/' + cookie.user.data.id);
-            setMenus(response.data.data.menus);
-            setSkeletonLoading(false);
-        } catch (error) {
-            console.log(error);
-            setSkeletonLoading(false);
+        if (currentIndex === 'default') {
+            try {
+                setSkeletonLoading(true);
+                const response = await axios.get('/api/menu/' + cookie.user.data.id);
+                setMenus(response.data.data.menus);
+                setSkeletonLoading(false);
+            } catch (error) {
+                console.log(error);
+                setSkeletonLoading(false);
+            }
+        } else {
+            try {
+                setSkeletonLoading(true);
+                const response = await axios.get('/api/category/' + cookie.user.data.id + '/' + currentIndex);
+                setMenus(response.data.data);
+                setSkeletonLoading(false);
+            } catch (error) {
+                console.log(error);
+                setSkeletonLoading(false);
+            }
         }
+
     }
 
 
