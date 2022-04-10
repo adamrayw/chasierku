@@ -32,7 +32,7 @@ export default function Tabs() {
 
     return (
         <div className="flex items-center space-x-4 mt-5 overflow-x-auto">
-            <button className={`text-gray-600 font-bold shadow-sm w-40 py-3 px-6 rounded transition-all focus:bg-gray-300 bg-opacity-60 border border-transparent focus:border focus:text-white focus:border-blue-400 ${cookieTab.tabs === 'default' ? 'bg-gray-300 text-white' : 'bg-white'}`} onClick={() => {
+            <button className={`text-gray-600 outline-0 focus:outline-0 font-bold shadow-sm w-40 py-3 px-6 rounded transition-all active:bg-gray-300 bg-opacity-60  focus:text-white ${cookieTab.tabs === 'default' ? 'bg-gray-300 text-white' : 'bg-white'}`} onClick={() => {
                 setCookieTab('tabs', 'default')
                 dispatch(changeTab('default'));
             }}>
@@ -51,7 +51,7 @@ export default function Tabs() {
             {category.map((item) => {
                 return (
                     <div key={item.id}>
-                        <button className={`text-gray-600 font-bold shadow-sm w-40 py-3 px-6 rounded transition-all focus:bg-gray-300 bg-opacity-60 border border-transparent focus:border focus:text-white focus:border-blue-400 ${cookieTab.tabs == item.id ? 'bg-gray-300 text-white' : 'bg-white'}`} onClick={() => {
+                        <button className={`text-gray-600 outline-0 focus:outline-0 font-bold shadow-sm w-40 py-3 px-6 rounded transition-all active:bg-gray-300 bg-opacity-60  focus:text-white ${cookieTab.tabs == item.id ? 'bg-gray-300 text-white' : 'bg-white'}`} onClick={() => {
                             setCookieTab('tabs', item.id)
                             dispatch(changeTab(item.id))
 
