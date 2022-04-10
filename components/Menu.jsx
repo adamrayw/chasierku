@@ -17,8 +17,6 @@ export default function Menu() {
 
     const dispatch = useDispatch();
 
-    console.log(currentIndex);
-
     useEffect(() => {
         dispatch(getSubtotal());
     }, [dispatch, value])
