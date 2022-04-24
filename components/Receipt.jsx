@@ -23,6 +23,10 @@ export default function Receipt() {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        handlePrintReceipt();
+    }, [data]);
+
+    useEffect(() => {
         dispatch(getVoucher());
     }, [dispatch])
 
@@ -34,7 +38,7 @@ export default function Receipt() {
         total = total - potongan;
     }
 
-    async function handlePrintReceipt() {
+    function handlePrintReceipt() {
         setReceipt({
             user_id: cookie.user.data.id,
             nama_customer: receipt.nama_customer,
@@ -46,24 +50,26 @@ export default function Receipt() {
             total: total
         });
 
-        const formData = new FormData();
-        formData.append("user_id", receipt.user_id);
-        formData.append("customer_name", receipt.nama_customer);
-        formData.append("menu", JSON.stringify(receipt.menu));
-        formData.append("subtotal", receipt.subtotal);
-        formData.append("ppn", receipt.ppn);
-        formData.append("kode_voucher", receipt.kode_voucher);
-        formData.append("discount", receipt.discount);
-        formData.append("total", receipt.total);
+        // const formData = new FormData();
+        // formData.append("user_id", receipt.user_id);
+        // formData.append("customer_name", receipt.nama_customer);
+        // formData.append("menu", JSON.stringify(receipt.menu));
+        // formData.append("subtotal", receipt.subtotal);
+        // formData.append("ppn", receipt.ppn);
+        // formData.append("kode_voucher", receipt.kode_voucher);
+        // formData.append("discount", receipt.discount);
+        // formData.append("total", receipt.total);
 
-        try {
-            axios.get('/sanctum/csrf-cookie')
-            const response = await axios.post('/api/transaction', formData);
-        } catch (error) {
-            console.log(error);
-        }
+        // try {
+        //     axios.get('/sanctum/csrf-cookie')
+        //     const response = await axios.post('/api/transaction', formData);
+        // } catch (error) {
+        //     console.log(error);
+        // }
 
     }
+
+    console.log(receipt);
 
 
 
