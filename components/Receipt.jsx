@@ -5,7 +5,6 @@ import { useCookies } from "react-cookie";
 import axios from "axios";
 
 export default function Receipt() {
-    const [customer, setCustomer] = useState('');
     const [cookie, setCookie] = useCookies(["user"]);
     const data = useSelector((state) => state.receipt.value);
     const subtotal = useSelector((state) => state.receipt);
@@ -22,14 +21,6 @@ export default function Receipt() {
 
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        handlePrintReceipt();
-    }, [data]);
-
-    useEffect(() => {
-        dispatch(getVoucher());
-    }, [dispatch])
-
     let total = subtotal.subTotal + subtotal.subTotal * 11.0 / 100;
     let potongan;
 
@@ -38,39 +29,52 @@ export default function Receipt() {
         total = total - potongan;
     }
 
+    useEffect(() => {
+        getVoucher();
+        handlePrintReceipt();
+    }, [total, data, dispatch]);
+
+    useEffect(() => {
+        dispatch(getVoucher());
+        handlePrintReceipt();
+    }, [dispatch])
+
+
     function handlePrintReceipt() {
-        setReceipt({
-            user_id: cookie.user.data.id,
-            nama_customer: receipt.nama_customer,
-            menu: data,
-            subtotal: subtotal.subTotal,
-            ppn: 11,
-            kode_voucher: subtotal.isVoucher.value.kode ?? '',
-            discount: subtotal.isVoucher.value.disc ?? '',
-            total: total
-        });
-
-        // const formData = new FormData();
-        // formData.append("user_id", receipt.user_id);
-        // formData.append("customer_name", receipt.nama_customer);
-        // formData.append("menu", JSON.stringify(receipt.menu));
-        // formData.append("subtotal", receipt.subtotal);
-        // formData.append("ppn", receipt.ppn);
-        // formData.append("kode_voucher", receipt.kode_voucher);
-        // formData.append("discount", receipt.discount);
-        // formData.append("total", receipt.total);
-
-        // try {
-        //     axios.get('/sanctum/csrf-cookie')
-        //     const response = await axios.post('/api/transaction', formData);
-        // } catch (error) {
-        //     console.log(error);
-        // }
-
+        if (cookie.user) {
+            setReceipt({
+                user_id: cookie.user.data.id,
+                nama_customer: receipt.nama_customer,
+                menu: data,
+                subtotal: subtotal.subTotal,
+                ppn: 11,
+                kode_voucher: subtotal.isVoucher.value.kode ?? '',
+                discount: subtotal.isVoucher.value.disc ?? '',
+                total: total
+            });
+        }
     }
 
-    console.log(receipt);
+    async function sendReceipt() {
+        const formData = new FormData();
+        formData.append("user_id", receipt.user_id);
+        formData.append("customer_name", receipt.nama_customer);
+        formData.append("menu", JSON.stringify(receipt.menu));
+        formData.append("subtotal", receipt.subtotal);
+        formData.append("ppn", receipt.ppn);
+        formData.append("kode_voucher", receipt.kode_voucher);
+        formData.append("discount", receipt.discount);
+        formData.append("total", receipt.total);
 
+        try {
+            axios.get('/sanctum/csrf-cookie')
+            const response = await axios.post('/api/transaction', formData);
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    console.log(receipt);
 
 
 
@@ -124,7 +128,7 @@ export default function Receipt() {
                 {(subtotal.isVoucher.isTrue) ? (
                     <div className="ppn mt-2 flex justify-between items-center">
                         <p className="text-gray-400">{subtotal.isVoucher.value.name} {subtotal.isVoucher.value.disc}%</p>
-                        <p className="text-gray-400">- {new Intl.NumberFormat(['ban', 'id']).format(potongan)}</p>
+                        <p className="text-gray-400">- Rp{new Intl.NumberFormat(['ban', 'id']).format(potongan)}</p>
                     </div>
                 ) : ('')}
 
@@ -138,8 +142,9 @@ export default function Receipt() {
             <div className="some-btn absolute bottom-0 right-0 left-0 mb-36 space-y-4 px-10">
                 <input type="text" className="border border-dashed w-full text-center py-4 text-xl" placeholder="Kode Voucher" onKeyUp={((e) => {
                     dispatch(getVoucher(e.target.value))
+                    handlePrintReceipt();
                 })} />
-                <button className="bg-orange-500 text-white hover:bg-orange-700 active:bg-orange-800 transition-all w-full font-bold tracking-wide text-center py-4 text-xl" onClick={() => handlePrintReceipt()}>Print Receipt</button>
+                <button className="bg-orange-500 text-white hover:bg-orange-700 active:bg-orange-800 transition-all w-full font-bold tracking-wide text-center py-4 text-xl" onClick={() => sendReceipt()}>Print Receipt</button>
             </div>
         </div>
     )
