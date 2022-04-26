@@ -42,8 +42,8 @@ export default function Home() {
       <main>
         <section className="grid grid-cols-3 ">
           <div className="col-span-2 bg-gray-50 p-10 h-screen">
-            <div className="flex items-center justify-between">
-              <Search />
+            <div className="flex items-center justify-end">
+              {/* <Search /> */}
               <h1 className="text-gray-500">{clock}</h1>
             </div>
             <Tabs />
