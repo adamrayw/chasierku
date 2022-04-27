@@ -80,7 +80,6 @@ export default function Receipt() {
             setLoading(false);
         }
     }
-    console.log(receipt);
 
 
 

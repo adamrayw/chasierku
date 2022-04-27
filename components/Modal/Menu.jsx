@@ -57,7 +57,6 @@ export default function Menu() {
         try {
             setLoadingDeleteMenu(true);
             const response = await axios.delete('/api/menu/' + deleteMenu.id + '/delete');
-            console.log(response);
             getMenus();
             setLoadingDeleteMenu(false);
             setDeleteMenu([]);
