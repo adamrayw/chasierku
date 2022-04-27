@@ -2,9 +2,12 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux"
 import { getVoucher, removeReceiptItem } from "../features/receipt/receiptSlice";
 import { useCookies } from "react-cookie";
+import Image from 'next/image';
+import Spinner from '../public/assets/spinner.png';
 import axios from "axios";
 
 export default function Receipt() {
+    const [loading, setLoading] = useState(false);
     const [cookie, setCookie] = useCookies(["user"]);
     const data = useSelector((state) => state.receipt.value);
     const subtotal = useSelector((state) => state.receipt);
@@ -56,6 +59,7 @@ export default function Receipt() {
     }
 
     async function sendReceipt() {
+        setLoading(true);
         const formData = new FormData();
         formData.append("user_id", receipt.user_id);
         formData.append("customer_name", receipt.nama_customer);
@@ -69,9 +73,11 @@ export default function Receipt() {
         try {
             axios.get('/sanctum/csrf-cookie')
             const response = await axios.post('/api/transaction', formData);
-
+            setLoading(false);
+            setReceipt({ ...receipt, user_id: '1', nama_customer: '', menu: [], subtotal: '', ppn: 11, kode_voucher: '', discount: '', total: '' });
         } catch (error) {
             console.log(error);
+            setLoading(false);
         }
     }
     console.log(receipt);
@@ -86,7 +92,8 @@ export default function Receipt() {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
                 </div>
-                <input type="text" className="text-center bg-gray-50 w-full p-4 border-0 focus:border-0 text-lg text-gray-500 font-semibold" name="customer" id="customer" placeholder="Nama Customer" onChange={(e) => {
+                <input type="text" className="text-center bg-gray-50 w-full p-4 border-0 focus:border-0 text-lg text-gray-500 font-semibold" name="customer" id="customer" placeholder="Nama Customer" value={receipt.nama_customer
+                } onChange={(e) => {
                     setReceipt({ ...receipt, nama_customer: e.target.value });
                 }} />
             </div>
@@ -144,7 +151,11 @@ export default function Receipt() {
                     dispatch(getVoucher(e.target.value))
                     handlePrintReceipt();
                 })} />
-                <button className="bg-orange-500 text-white hover:bg-orange-700 active:bg-orange-800 transition-all w-full font-bold tracking-wide text-center py-4 text-xl" onClick={() => sendReceipt()}>Print Receipt</button>
+                <button className={`bg-orange-500 text-white hover:bg-orange-700 active:bg-orange-800 transition-all w-full font-bold tracking-wide text-center py-4 text-xl ${loading ? 'opacity-50 cursor-not-allowed hover:bg-orange-500 shadow-lg' : ''}`} onClick={() => sendReceipt()}>
+                    {loading ? (
+                        <Image className='animate-spin' src={Spinner} width="20" height="20" alt='loading' />
+                    ) : 'Print Receipt'}
+                </button>
             </div>
         </div>
     )
