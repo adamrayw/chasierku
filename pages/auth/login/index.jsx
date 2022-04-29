@@ -56,6 +56,11 @@ export default function Login() {
                 maxAge: 3600,
                 sameSite: true,
             })
+            setCookie('income', response.data.data.income, {
+                path: '/',
+                maxAge: 3600,
+                sameSite: true,
+            })
             setIsLoading(false);
             router.push('/');
 
