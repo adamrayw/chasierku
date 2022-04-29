@@ -39,39 +39,41 @@ export default function Statistik() {
             <Head>
                 <title>Statistic</title>
             </Head>
-            <div className='p-10'>
-                <div className='text-3xl font-bold text-gray-700'>Statistic</div>
-                <div className="3_screens grid grid-cols-3 mt-4 py-10 rounded gap-4 text-center">
-                    <div className='hover:shadow transition duration-300 border rounded-lg bg-white p-4 space-y-4'>
-                        <h2 className='text-xl font-medium text-orange-500'>Total Pendapatan</h2>
-                        <p className='text-2xl font-semibold text-green-400'>Rp12.412.512</p>
-                    </div>
-                    <div className='hover:shadow transition duration-300 border rounded-lg bg-white p-4 space-y-4'>
-                        <h2 className='text-xl font-medium text-orange-500'>Total Transaksi</h2>
-                        <p className='text-2xl font-semibold text-green-400'>{transaction.length}</p>
-                    </div>
-                    <div className='hover:shadow transition duration-300 border rounded-lg bg-white p-4 space-y-4'>
-                        <h2 className='text-xl font-medium text-orange-500'>Transaksi Hari Ini</h2>
-                        <p className='text-2xl font-semibold text-green-400'>{totalTransaction.length}</p>
+            <div>
+                <div className='p-10 bg-orange-500 rounded-b-3xl'>
+                    <div className='text-3xl font-bold text-white'>Laporan Transaksi</div>
+                    <div className="3_screens grid grid-cols-3 py-10 rounded gap-4 text-center">
+                        <div className='shadow-lg hover:shadow-xl transition duration-300 border rounded-lg bg-white p-4 space-y-4'>
+                            <h2 className='text-2xl font-medium text-orange-500'>Total Pendapatan</h2>
+                            <p className='text-2xl font-semibold text-green-400'>Rp12.412.512</p>
+                        </div>
+                        <div className='shadow-lg hover:shadow-xl transition duration-300 border rounded-lg bg-white p-4 space-y-4'>
+                            <h2 className='text-2xl font-medium text-orange-500'>Total Transaksi</h2>
+                            <p className='text-2xl font-semibold text-green-400'>{transaction.length}</p>
+                        </div>
+                        <div className='shadow-lg hover:shadow-xl transition duration-300 border rounded-lg bg-white p-4 space-y-4'>
+                            <h2 className='text-2xl font-medium text-orange-500'>Transaksi Hari Ini</h2>
+                            <p className='text-2xl font-semibold text-green-400'>{totalTransaction.length}</p>
+                        </div>
                     </div>
                 </div>
-                <div className="last_transaction mt-10">
-                    <h2 className='font-medium text-xl text-gray-700'>Last Transaction</h2>
-                    <div>
+                <div className="last_transaction mt-10 px-10">
+                    <h2 className='font-bold text-2xl text-gray-600 mb-4'>Transaksi Terakhir</h2>
+                    <div className='h-80 overflow-auto'>
                         <table className='w-full text-left mt-6'>
                             <thead>
-                                <tr className='text-gray-700'>
-                                    <th>Item</th>
-                                    <th>Payment Method</th>
-                                    <th>Price</th>
+                                <tr className='text-xl text-gray-700 border-b'>
+                                    <th className='sticky top-0 bg-white'>Menu</th>
+                                    <th className='sticky top-0 bg-white'>Metode Pembayaran</th>
+                                    <th className='sticky top-0 bg-white'>Total</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {transaction.map((item) => {
                                     const menu = JSON.parse(item.menu)
                                     return (
-                                        <tr className='text-gray-500 py-6' key={item.id}>
-                                            <td className='flex text-ellipsis'>
+                                        <tr className='text-gray-500' key={item.id}>
+                                            <td className='flex text-ellipsis my-4'>
                                                 {menu.map((item, index) => {
                                                     return (
                                                         <p className='pr-4' key={index}>
