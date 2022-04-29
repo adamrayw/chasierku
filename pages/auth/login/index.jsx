@@ -4,6 +4,7 @@ import { useCookies } from 'react-cookie';
 import Spinner from '../../../public/assets/spinner.png';
 import axios from 'axios';
 import Image from 'next/image';
+import Head from 'next/head'
 
 export default function Login() {
     const [cookie, setCookie] = useCookies(['user']);
@@ -66,6 +67,9 @@ export default function Login() {
 
     return (
         <section className="h-screen flex justify-center items-center">
+            <Head>
+                <title>Login</title>
+            </Head>
             <section className="h-screen">
                 <div className="px-6 max-w-md h-full text-gray-800">
                     <div

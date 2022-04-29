@@ -41,18 +41,18 @@ export default function Statistik() {
             </Head>
             <div className='p-10'>
                 <div className='text-3xl font-bold text-gray-700'>Statistic</div>
-                <div className="3_screens bg-orange-500 grid grid-cols-3 mt-4 p-10 rounded gap-4 text-center">
-                    <div className='shadow rounded-lg bg-white p-4 space-y-4'>
-                        <p className='text-2xl text-green-400'>Rp12.412.512</p>
-                        <h2 className='text-xl font-semibold text-gray-700'>Total Pendapatan</h2>
+                <div className="3_screens grid grid-cols-3 mt-4 py-10 rounded gap-4 text-center">
+                    <div className='hover:shadow transition duration-300 border rounded-lg bg-white p-4 space-y-4'>
+                        <h2 className='text-xl font-medium text-orange-500'>Total Pendapatan</h2>
+                        <p className='text-2xl font-semibold text-green-400'>Rp12.412.512</p>
                     </div>
-                    <div className='shadow rounded-lg bg-white p-4 space-y-4'>
-                        <p className='text-2xl text-green-400'>{transaction.length}</p>
-                        <h2 className='text-xl font-semibold text-gray-700'>Total Transaksi</h2>
+                    <div className='hover:shadow transition duration-300 border rounded-lg bg-white p-4 space-y-4'>
+                        <h2 className='text-xl font-medium text-orange-500'>Total Transaksi</h2>
+                        <p className='text-2xl font-semibold text-green-400'>{transaction.length}</p>
                     </div>
-                    <div className='shadow rounded-lg bg-white p-4 space-y-4'>
-                        <p className='text-2xl text-green-400'>{totalTransaction.length}</p>
-                        <h2 className='text-xl font-semibold text-gray-700'>Total Transaksi Hari Ini</h2>
+                    <div className='hover:shadow transition duration-300 border rounded-lg bg-white p-4 space-y-4'>
+                        <h2 className='text-xl font-medium text-orange-500'>Transaksi Hari Ini</h2>
+                        <p className='text-2xl font-semibold text-green-400'>{totalTransaction.length}</p>
                     </div>
                 </div>
                 <div className="last_transaction mt-10">
