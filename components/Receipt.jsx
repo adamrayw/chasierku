@@ -9,6 +9,7 @@ import axios from "axios";
 export default function Receipt() {
     const [loading, setLoading] = useState(false);
     const [cookie, setCookie] = useCookies(["user"]);
+    const [cookieIncome, setCookieIncome, removeCookie] = useCookies(["income"]);
     const data = useSelector((state) => state.receipt.value);
     const subtotal = useSelector((state) => state.receipt);
     const [receipt, setReceipt] = useState({
@@ -73,6 +74,16 @@ export default function Receipt() {
         try {
             axios.get('/sanctum/csrf-cookie')
             const response = await axios.post('/api/transaction', formData);
+            await axios.post('/api/income', {
+                user_id: receipt.user_id,
+                income: receipt.total + Number(cookie.income)
+            });
+            removeCookie('income', { path: '/' });
+            setCookieIncome('income', receipt.total + Number(cookie.income), {
+                path: '/',
+                maxAge: 3600,
+                sameSite: true,
+            });
             setLoading(false);
             setReceipt({ ...receipt, user_id: '1', nama_customer: '', menu: [], subtotal: '', ppn: 11, kode_voucher: '', discount: '', total: '' });
         } catch (error) {
