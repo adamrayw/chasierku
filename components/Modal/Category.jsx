@@ -203,7 +203,7 @@ export default function Category() {
             <hr />
             <form onSubmit={handleSubmit}>
                 <div className="form-group my-6">
-                    <label htmlFor="nama_voucher" className="form-label inline-block mb-2 text-gray-700">Nama Category</label>
+                    <label htmlFor="nama_voucher" className="form-label inline-block mb-2 text-gray-700">Nama Kategori</label>
                     <input type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange-600 focus:outline-none"
                         aria-describedby="voucher" value={data.name} required onChange={(e) => setData({ ...data, name: e.target.value })} />
                     <small id="voucher" className="block mt-1 text-xs text-gray-600">contoh: Coffee, Soft Drink etc</small>
