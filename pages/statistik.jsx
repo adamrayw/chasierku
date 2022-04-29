@@ -45,7 +45,7 @@ export default function Statistik() {
                     <div className="3_screens grid grid-cols-3 py-10 rounded gap-4 text-center">
                         <div className='shadow-lg hover:shadow-xl transition duration-300 border rounded-lg bg-white p-4 space-y-4'>
                             <h2 className='text-2xl font-medium text-orange-500'>Total Pendapatan</h2>
-                            <p className='text-2xl font-semibold text-green-400'>Rp12.412.512</p>
+                            <p className='text-2xl font-semibold text-green-400'>Rp{new Intl.NumberFormat(['ban', 'id']).format(cookie.income)}</p>
                         </div>
                         <div className='shadow-lg hover:shadow-xl transition duration-300 border rounded-lg bg-white p-4 space-y-4'>
                             <h2 className='text-2xl font-medium text-orange-500'>Total Transaksi</h2>
