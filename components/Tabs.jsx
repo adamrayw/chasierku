@@ -28,9 +28,14 @@ export default function Tabs() {
     const getCategory = async () => {
         try {
             setSkeltonLoading(true);
-            const response = await axios.get('/api/category/' + cookie.user.data.id);
-            setCategory(response.data.data.categories);
-            setSkeltonLoading(false);
+            if (!cookie.user) {
+                return;
+            } else {
+                const response = await axios.get('/api/category/' + cookie.user.data.id);
+                setCategory(response.data.data.categories);
+                setSkeltonLoading(false);
+                return;
+            }
         } catch (error) {
             console.log(error);
             setSkeltonLoading(false);

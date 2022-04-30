@@ -33,9 +33,14 @@ export default function Menu() {
         if (currentIndex === 'default') {
             try {
                 setSkeletonLoading(true);
-                const response = await axios.get('/api/menu/' + cookie.user.data.id);
-                setMenus(response.data.data.menus);
-                setSkeletonLoading(false);
+                if (!cookie.user) {
+                    return;
+                } else {
+                    const response = await axios.get('/api/menu/' + cookie.user.data.id);
+                    setMenus(response.data.data.menus);
+                    setSkeletonLoading(false);
+                    return;
+                }
             } catch (error) {
                 console.log(error);
                 setSkeletonLoading(false);
@@ -43,9 +48,14 @@ export default function Menu() {
         } else {
             try {
                 setSkeletonLoading(true);
-                const response = await axios.get('/api/category/' + cookie.user.data.id + '/' + currentIndex);
-                setMenus(response.data.data);
-                setSkeletonLoading(false);
+                if (!cookie.user) {
+                    return;
+                } else {
+                    const response = await axios.get('/api/category/' + cookie.user.data.id + '/' + currentIndex);
+                    setMenus(response.data.data);
+                    setSkeletonLoading(false);
+                    return;
+                }
             } catch (error) {
                 console.log(error);
                 setSkeletonLoading(false);
