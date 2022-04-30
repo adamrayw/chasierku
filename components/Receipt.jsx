@@ -36,11 +36,13 @@ export default function Receipt() {
     useEffect(() => {
         getVoucher();
         handlePrintReceipt();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [total, data, dispatch]);
 
     useEffect(() => {
         dispatch(getVoucher());
         handlePrintReceipt();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch])
 
 
