@@ -97,11 +97,11 @@ export default function Receipt() {
     return (
         <div className="p-10 relative h-screen w-auto ">
             <div className="customer relative">
-                <div className="bg-white rounded-full p-2 absolute top-1/2 ml-4 transform -translate-x-1/2 -translate-y-1/2">
+                {/* <div className="bg-white rounded-full p-2 absolute top-1/2 ml-4 transform -translate-x-1/2 -translate-y-1/2">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
-                </div>
+                </div> */}
                 <input type="text" className="text-center bg-gray-50 w-full p-4 border-0 focus:border-0 text-lg text-gray-500 font-semibold" name="customer" id="customer" placeholder="Nama Customer" value={receipt.nama_customer
                 } onChange={(e) => {
                     setReceipt({ ...receipt, nama_customer: e.target.value });
