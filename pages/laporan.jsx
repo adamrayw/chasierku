@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
 import NavbarC from '../components/Navbar'
 
-export default function Statistik() {
+export default function Laporan() {
     const [cookie, setCookie] = useCookies(["user"]);
     const [transaction, setTransaction] = useState([]);
     const [totalTransaction, setTotalTransaction] = useState([]);
