@@ -4,6 +4,9 @@ Cashierku is a point of sale system, like chasier, which can be used in various 
 ## Main Focus
 Make it easier for shop owner, to record sales or transactions quickly and safely.
 
+## Subscribe
+Register & subscribe [Here](http://chasierku.herokuapp.com/) and then you can use our app.
+
 ## Features
 - Tabs which is categories
 - Menu / Product
