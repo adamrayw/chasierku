@@ -5,11 +5,13 @@ import Spinner from '../../../public/assets/spinner.png';
 import axios from 'axios';
 import Image from 'next/image';
 import Head from 'next/head'
+import Expired from '../../../public/assets/expired.svg';
 
 export default function Login() {
     const [cookie, setCookie] = useCookies(['user']);
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
+    const [active, setActive] = useState(false);
 
     useEffect(() => {
         if (cookie.user) {
@@ -46,23 +48,29 @@ export default function Login() {
         try {
             setIsLoading(true);
             const response = await axios.post('https://chasierku.herokuapp.com/api/login', data);
-            setCookie("user", response.data, {
-                path: '/',
-                maxAge: 3600,
-                sameSite: true,
-            })
-            setCookie('tabs', 'default', {
-                path: '/',
-                maxAge: 3600,
-                sameSite: true,
-            })
-            setCookie('income', response.data.data.income, {
-                path: '/',
-                maxAge: 3600,
-                sameSite: true,
-            })
-            setIsLoading(false);
-            router.push('/');
+            if (response.data.data.expired === null) {
+                setActive(true);
+                setIsLoading(false);
+            } else {
+                setCookie("user", response.data, {
+                    path: '/',
+                    maxAge: 3600,
+                    sameSite: true,
+                })
+                setCookie('tabs', 'default', {
+                    path: '/',
+                    maxAge: 3600,
+                    sameSite: true,
+                })
+                setCookie('income', response.data.data.income, {
+                    path: '/',
+                    maxAge: 3600,
+                    sameSite: true,
+                })
+                setIsLoading(false);
+                router.push('/');
+            }
+
 
         } catch (error) {
             alert(error.message)
@@ -75,8 +83,27 @@ export default function Login() {
             <Head>
                 <title>Login</title>
             </Head>
+            {active ? (
+                <div className={`modal fixed w-full h-full top-0 left-0 flex items-center justify-center`} >
+                    <div className="modal-overlay absolute w-full h-full bg-gray-900 opacity-50" onClick={() => setActive(false)}></div>
+
+                    <div className="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-10 overflow-y-auto">
+
+                        <div className="modal-content p-10 text-center">
+                            <div className="flex justify-between items-center p-10">
+                                <Image src={Expired} alt='expired' className='max-w-xl' />
+                            </div>
+                            <h2 className='text-4xl font-bold text-orange-500'>Oopss..!!</h2>
+                            <p className='text-sm mb-8 mt-2 text-gray-400'>Akun anda belum berlangganan atau sudah expired, silahkan berlangganan.</p>
+                            <a href="http://chasierku.herokuapp.com/" className='inline-block bg-orange-500 hover:bg-orange-700 transition duration-300 active:ring-4 ring-orange-400 text-white px-4 py-2 rounded-lg'>Berlangganan</a>
+                            <button className='block text-sm text-gray-400 w-full mx-auto mt-4' onClick={() => setActive(false)}>Nanti aja</button>
+                        </div>
+                    </div>
+                </div >
+            ) : ''}
+
             <section className="h-screen">
-                <div className="px-6 max-w-md h-full text-gray-800">
+                <div className="px-6 max-w-md h-full  text-gray-800">
                     <div
                         className="flex flex-col xl:justify-center justify-center items-center h-full gap-6"
                     >
@@ -143,6 +170,7 @@ export default function Login() {
 
                                 </div>
                             </form >
+                            <p className='my-4 text-secondary'> Belum berlangganan?  <a href="http://chasierku.herokuapp.com/" className='text-orange-500 font-semibold hover:underline'>berlangganan disini</a></p>
                         </div >
                     </div >
                 </div >
