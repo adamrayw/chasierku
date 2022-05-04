@@ -83,7 +83,7 @@ export default function Laporan() {
                                                 })}
                                             </td>
                                             <td>
-                                                Gopay
+                                                {item.payment_method}
                                             </td>
                                             <td>
                                                 +Rp{new Intl.NumberFormat(['ban', 'id']).format(item.total)}
