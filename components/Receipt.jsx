@@ -20,8 +20,10 @@ export default function Receipt() {
         ppn: 11,
         kode_voucher: '',
         discount: '',
-        total: ''
+        total: '',
+        payment_method: '',
     });
+    const [active, setActive] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -56,7 +58,7 @@ export default function Receipt() {
                 ppn: 11,
                 kode_voucher: subtotal.isVoucher.value.kode ?? '',
                 discount: subtotal.isVoucher.value.disc ?? '',
-                total: total
+                total: total,
             });
         }
     }
@@ -72,6 +74,7 @@ export default function Receipt() {
         formData.append("kode_voucher", receipt.kode_voucher);
         formData.append("discount", receipt.discount);
         formData.append("total", receipt.total);
+        formData.append("payment_method", receipt.payment_method);
 
         try {
             axios.get('/sanctum/csrf-cookie')
@@ -87,7 +90,7 @@ export default function Receipt() {
                 sameSite: true,
             });
             setLoading(false);
-            setReceipt({ ...receipt, user_id: '1', nama_customer: '', menu: [], subtotal: '', ppn: 11, kode_voucher: '', discount: '', total: '' });
+            setReceipt({ ...receipt, user_id: '1', nama_customer: '', menu: [], subtotal: '', ppn: 11, kode_voucher: '', discount: '', total: '', payment_method: '' });
         } catch (error) {
             console.log(error);
             setLoading(false);
@@ -95,9 +98,80 @@ export default function Receipt() {
     }
 
 
-
     return (
+
         <div className="p-10 relative h-screen w-auto ">
+            {active ? (
+                <div className={`modal fixed w-full h-full top-0 left-0 flex items-center justify-center`} >
+                    <div className="modal-overlay absolute w-full h-full bg-gray-900 opacity-50" onClick={() => setActive(false)}></div>
+
+                    <div className="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-10 overflow-y-auto">
+                        <div className="modal-content p-10 ">
+                            <h2 className="text-2xl font-semibold text-gray-900">Konfirmasi Order</h2>
+                            <hr className="mb-2" />
+                            <div className="flex flex-col h-56 overflow-auto">
+                                {receipt.menu.map((item) => {
+                                    return (
+                                        <div key={item.id} className="my-2 flex items-center justify-between">
+                                            <Image src={item.image} alt="menu_logo" width={60} height={60} />
+                                            <p>{item.name}</p>
+                                            <p>Rp{new Intl.NumberFormat(['ban', 'id']).format(item.price)}</p>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                            <div className="mt-6 flex items-center justify-between">
+                                <p className="text-xl font-medium">Subtotal</p>
+                                <p className="text-gray-400">Rp{new Intl.NumberFormat(['ban', 'id']).format(receipt.subtotal)}</p>
+                            </div>
+                            <div className="mt-2 flex items-center justify-between">
+                                <p className="text-sm font-normal">PPN 11%</p>
+                                <p className="text-gray-400">+Rp{new Intl.NumberFormat(['ban', 'id']).format(subtotal.subTotal * 11.0 / 100)}</p>
+                            </div>
+                            <div className="mt-2 flex items-center justify-between">
+                                <p className="text-sm font-normal">Voucher</p>
+                                {(subtotal.isVoucher.isTrue) ? (
+                                    <div className="ppn mt-2 flex justify-between items-center">
+                                        <p className="text-gray-400 mr-2">{subtotal.isVoucher.value.name} {subtotal.isVoucher.value.disc}%</p>
+                                        <p className="text-gray-400">- Rp{new Intl.NumberFormat(['ban', 'id']).format(potongan)}</p>
+                                    </div>
+                                ) : (<p className="text-gray-400">-</p>)}
+                            </div>
+                            <div className="mt-6 flex items-center justify-between">
+                                <p className="text-xl font-medium">TOTAL</p>
+                                <p className="text-gray-800 font-bold">Rp{new Intl.NumberFormat(['ban', 'id']).format(receipt.total)}</p>
+                            </div>
+                            <hr />
+
+                            <label htmlFor="payment" className="mt-4 block mb-2 text-sm font-medium text-gray-900 ">Metode Pembayaran</label>
+                            <select id="payment" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 " onChange={(e) => {
+                                setReceipt({ ...receipt, payment_method: e.target.value });
+                            }}>
+                                <option selected>Pilih Metode Pembayaran</option>
+                                <option value="Tunai">Tunai</option>
+                                <option value="GoPay">GoPay</option>
+                                <option value="OVO">OVO</option>
+                                <option value="DANA">DANA</option>
+                                <option value="LinkAja">LinkAja</option>
+                                <option value="ShopeePay">ShopeePay</option>
+                                <option value="BCA">Transfer Bank (Virtual Account)</option>
+                            </select>
+                            <small className="text-gray-500 flex items-center mt-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                </svg>
+                                Siapkan QR Code sesuai metode pembayaran, dan tunjukan ke customer untuk melakukan pembayaran
+                            </small>
+                            <button className={`mt-6 bg-orange-500 text-white hover:bg-orange-700 active:bg-orange-800 transition-all w-full font-bold tracking-wide text-center py-4 text-xl ${loading ? 'opacity-50 cursor-not-allowed hover:bg-orange-500 shadow-lg' : ''}`} onClick={() => sendReceipt()}>
+                                {loading ? (
+                                    <Image className='animate-spin' src={Spinner} width="20" height="20" alt='loading' />
+                                ) : 'Pembayaran Selesai'}
+                            </button>
+                        </div>
+                    </div>
+                </div >
+            ) : ('')}
+
             <div className="customer relative">
                 {/* <div className="bg-white rounded-full p-2 absolute top-1/2 ml-4 transform -translate-x-1/2 -translate-y-1/2">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -163,11 +237,18 @@ export default function Receipt() {
                     dispatch(getVoucher(e.target.value))
                     handlePrintReceipt();
                 })} />
-                <button className={`bg-orange-500 text-white hover:bg-orange-700 active:bg-orange-800 transition-all w-full font-bold tracking-wide text-center py-4 text-xl ${loading ? 'opacity-50 cursor-not-allowed hover:bg-orange-500 shadow-lg' : ''}`} onClick={() => sendReceipt()}>
-                    {loading ? (
-                        <Image className='animate-spin' src={Spinner} width="20" height="20" alt='loading' />
-                    ) : 'Print Receipt'}
-                </button>
+
+                {receipt.menu.length === 0 ? (
+                    <button className={`bg-orange-500 text-white hover:bg-orange-700 active:bg-orange-800 transition-all w-full font-bold tracking-wide text-center py-4 text-xl`} onClick={() => setActive(true)}>
+                        Print Receipt
+                    </button>
+                ) : (
+
+                    <button className={`bg-orange-500 text-white hover:bg-orange-700 active:bg-orange-800 transition-all w-full font-bold tracking-wide text-center py-4 text-xl`} onClick={() => setActive(true)}>
+                        Print Receipt
+                    </button>
+                )}
+
             </div>
         </div>
     )
