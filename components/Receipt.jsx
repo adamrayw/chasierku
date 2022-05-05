@@ -239,11 +239,10 @@ export default function Receipt() {
                 })} />
 
                 {receipt.menu.length === 0 ? (
-                    <button className={`bg-orange-500 text-white hover:bg-orange-700 active:bg-orange-800 transition-all w-full font-bold tracking-wide text-center py-4 text-xl`} onClick={() => setActive(true)}>
+                    <button className={`bg-orange-500 text-white hover:cursor-not-allowed opacity-50 transition-all w-full font-bold tracking-wide text-center py-4 text-xl`} disabled>
                         Print Receipt
                     </button>
                 ) : (
-
                     <button className={`bg-orange-500 text-white hover:bg-orange-700 active:bg-orange-800 transition-all w-full font-bold tracking-wide text-center py-4 text-xl`} onClick={() => setActive(true)}>
                         Print Receipt
                     </button>
