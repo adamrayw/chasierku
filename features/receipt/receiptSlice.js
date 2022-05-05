@@ -16,6 +16,9 @@ export const receiptSlice = createSlice({
   name: "receipt",
   initialState,
   reducers: {
+    setValueEmpty: (state) => {
+      state.value = [];
+    },
     addToReceipt: (state, action) => {
       const tempMenu = { ...action.payload };
       state.value.push(tempMenu);
@@ -70,6 +73,7 @@ export const {
   getSubtotal,
   getVoucher,
   changeTab,
+  setValueEmpty,
 } = receiptSlice.actions;
 
 export default receiptSlice.reducer;
