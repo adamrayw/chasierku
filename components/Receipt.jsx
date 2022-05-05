@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux"
-import { getVoucher, removeReceiptItem } from "../features/receipt/receiptSlice";
+import { getVoucher, removeReceiptItem, setValueEmpty } from "../features/receipt/receiptSlice";
 import { useCookies } from "react-cookie";
 import Image from 'next/image';
 import Spinner from '../public/assets/spinner.png';
@@ -95,6 +95,8 @@ export default function Receipt() {
             setActive(false);
             setSuccess(true);
             setReceipt({ ...receipt, user_id: '1', nama_customer: '', menu: [], subtotal: '', ppn: 11, kode_voucher: '', discount: '', total: '', payment_method: '' });
+            dispatch(setValueEmpty())
+
         } catch (error) {
             console.log(error);
             setLoading(false);
@@ -171,7 +173,10 @@ export default function Receipt() {
                                 </svg>
                                 Siapkan QR Code sesuai metode pembayaran, dan tunjukan ke customer untuk melakukan pembayaran
                             </small>
-                            <button className={`mt-6 bg-orange-500 text-white hover:bg-orange-700 active:bg-orange-800 transition-all w-full font-bold tracking-wide text-center py-4 text-xl ${loading ? 'opacity-50 cursor-not-allowed hover:bg-orange-500 shadow-lg' : ''}`} onClick={() => sendReceipt()}>
+                            <button className={`mt-6 bg-orange-500 text-white hover:bg-orange-700 active:bg-orange-800 transition-all w-full font-bold tracking-wide text-center py-4 text-xl ${loading ? 'opacity-50 cursor-not-allowed hover:bg-orange-500 shadow-lg' : ''}`} onClick={() => {
+                                sendReceipt()
+                            }
+                            }>
                                 {loading ? (
                                     <Image className='animate-spin' src={Spinner} width="20" height="20" alt='loading' />
                                 ) : 'Pembayaran Selesai'}
