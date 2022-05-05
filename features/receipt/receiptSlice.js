@@ -4,6 +4,7 @@ import { voucher } from "../../data/voucher";
 const initialState = {
   value: [],
   tab: "default",
+  customer: "",
   voucher,
   isVoucher: {
     isTrue: false,
@@ -16,6 +17,9 @@ export const receiptSlice = createSlice({
   name: "receipt",
   initialState,
   reducers: {
+    setCustomer: (state, action) => {
+      state.customer = action.payload;
+    },
     setValueEmpty: (state) => {
       state.value = [];
     },
@@ -74,6 +78,7 @@ export const {
   getVoucher,
   changeTab,
   setValueEmpty,
+  setCustomer,
 } = receiptSlice.actions;
 
 export default receiptSlice.reducer;
