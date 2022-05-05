@@ -128,11 +128,11 @@ export default function Laporan() {
                                             const date = new Date(tgl);
                                             return (
                                                 <tr className='text-gray-500' key={item.id}>
-                                                    <td className='flex text-ellipsis my-4'>
+                                                    <td className='flex flex-wrap my-4'>
                                                         {menu.map((item, index) => {
                                                             return (
-                                                                <p className='pr-4' key={index}>
-                                                                    {item.name}
+                                                                <p className='pr-2' key={index}>
+                                                                    {item.name},
                                                                 </p>
                                                             )
                                                         })}
