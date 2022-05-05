@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux"
-import { getVoucher, removeReceiptItem, setValueEmpty } from "../features/receipt/receiptSlice";
+import { getVoucher, removeReceiptItem, setCustomer, setValueEmpty } from "../features/receipt/receiptSlice";
 import { useCookies } from "react-cookie";
 import Image from 'next/image';
 import Spinner from '../public/assets/spinner.png';
@@ -13,6 +13,7 @@ export default function Receipt() {
     const [cookieIncome, setCookieIncome, removeCookie] = useCookies(["income"]);
     const data = useSelector((state) => state.receipt.value);
     const subtotal = useSelector((state) => state.receipt);
+    const customer = useSelector((state) => state.receipt.customer);
     const [receipt, setReceipt] = useState({
         user_id: '1',
         nama_customer: '',
@@ -69,7 +70,7 @@ export default function Receipt() {
         setLoading(true);
         const formData = new FormData();
         formData.append("user_id", receipt.user_id);
-        formData.append("customer_name", receipt.nama_customer);
+        formData.append("customer_name", customer);
         formData.append("menu", JSON.stringify(receipt.menu));
         formData.append("subtotal", receipt.subtotal);
         formData.append("ppn", receipt.ppn);
@@ -96,7 +97,7 @@ export default function Receipt() {
             setSuccess(true);
             setReceipt({ ...receipt, user_id: '1', nama_customer: '', menu: [], subtotal: '', ppn: 11, kode_voucher: '', discount: '', total: '', payment_method: '' });
             dispatch(setValueEmpty())
-
+            dispatch(setCustomer(''))
         } catch (error) {
             console.log(error);
             setLoading(false);
@@ -188,9 +189,9 @@ export default function Receipt() {
 
             <div className="customer relative">
 
-                <input type="text" className="text-center bg-gray-50 w-full p-4 border-0 focus:border-0 text-lg text-gray-500 font-semibold" name="customer" id="customer" placeholder="Nama Customer" value={receipt.nama_customer
+                <input type="text" className="text-center bg-gray-50 w-full p-4 border-0 focus:border-0 text-lg text-gray-500 font-semibold" name="customer" id="customer" placeholder="Nama Customer" value={customer
                 } onChange={(e) => {
-                    setReceipt({ ...receipt, nama_customer: e.target.value });
+                    dispatch(setCustomer(e.target.value));
                 }} />
             </div>
             <div className="overflow-auto h-80 scrollbar-hide mt-2">
