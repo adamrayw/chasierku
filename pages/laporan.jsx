@@ -8,6 +8,7 @@ export default function Laporan() {
     const [cookie, setCookie] = useCookies(["user"]);
     const [transaction, setTransaction] = useState([]);
     const [totalTransaction, setTotalTransaction] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         getStat();
@@ -26,10 +27,13 @@ export default function Laporan() {
 
     const getStat = async () => {
         try {
+            setLoading(true);
             const response = await axios.get('/api/transactions/' + cookie.user.data.id);
             setTransaction(response.data.data);
+            setLoading(false);
         } catch (error) {
             console.log(error);
+            setLoading(false);
         }
     }
 
@@ -69,28 +73,71 @@ export default function Laporan() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {transaction.map((item) => {
-                                    const menu = JSON.parse(item.menu)
-                                    return (
-                                        <tr className='text-gray-500' key={item.id}>
+                                {loading ? (
+                                    <>
+                                        <tr className='text-gray-500' >
                                             <td className='flex text-ellipsis my-4'>
-                                                {menu.map((item, index) => {
-                                                    return (
-                                                        <p className='pr-4' key={index}>
-                                                            {item.name}
-                                                        </p>
-                                                    )
-                                                })}
+                                                <div className='h-4 w-full bg-gray-300 animate-pulse mr-4'></div>
                                             </td>
                                             <td>
-                                                {item.payment_method}
+                                                <div className='h-4 w-14 bg-gray-300 animate-pulse mr-4'></div>
                                             </td>
                                             <td>
-                                                +Rp{new Intl.NumberFormat(['ban', 'id']).format(item.total)}
+                                                <div className='h-4 w-14 bg-gray-300 animate-pulse mr-4'></div>
                                             </td>
                                         </tr>
-                                    )
-                                })}
+                                        <tr className='text-gray-500' >
+                                            <td className='flex text-ellipsis my-4'>
+                                                <div className='h-4 w-full bg-gray-300 animate-pulse mr-4'></div>
+                                            </td>
+                                            <td>
+                                                <div className='h-4 w-14 bg-gray-300 animate-pulse mr-4'></div>
+                                            </td>
+                                            <td>
+                                                <div className='h-4 w-14 bg-gray-300 animate-pulse mr-4'></div>
+                                            </td>
+                                        </tr>
+                                        <tr className='text-gray-500' >
+                                            <td className='flex text-ellipsis my-4'>
+                                                <div className='h-4 w-full bg-gray-300 animate-pulse mr-4'></div>
+                                            </td>
+                                            <td>
+                                                <div className='h-4 w-14 bg-gray-300 animate-pulse mr-4'></div>
+                                            </td>
+                                            <td>
+                                                <div className='h-4 w-14 bg-gray-300 animate-pulse mr-4'></div>
+                                            </td>
+                                        </tr>
+                                    </>
+
+                                ) : (
+                                    <>
+                                        {transaction.map((item) => {
+                                            const menu = JSON.parse(item.menu)
+                                            return (
+                                                <tr className='text-gray-500' key={item.id}>
+                                                    <td className='flex text-ellipsis my-4'>
+                                                        {menu.map((item, index) => {
+                                                            return (
+                                                                <p className='pr-4' key={index}>
+                                                                    {item.name}
+                                                                </p>
+                                                            )
+                                                        })}
+                                                    </td>
+                                                    <td>
+                                                        {item.payment_method}
+                                                    </td>
+                                                    <td>
+                                                        +Rp{new Intl.NumberFormat(['ban', 'id']).format(item.total)}
+                                                    </td>
+                                                </tr>
+                                            )
+                                        })}
+                                    </>
+
+                                )}
+
 
                             </tbody>
                         </table>
