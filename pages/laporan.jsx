@@ -41,7 +41,7 @@ export default function Laporan() {
     return (
         <div>
             <Head>
-                <title>Statistic</title>
+                <title>Laporan</title>
             </Head>
             <div>
                 <div className='p-10 bg-orange-500 rounded-b-3xl'>
@@ -63,13 +63,14 @@ export default function Laporan() {
                 </div>
                 <div className="last_transaction mt-10 px-10">
                     <h2 className='font-bold text-2xl text-gray-600 mb-4'>Transaksi Terakhir</h2>
-                    <div className='h-80 overflow-auto'>
+                    <div className='h-96 overflow-auto'>
                         <table className='w-full text-left mt-6'>
                             <thead>
                                 <tr className='text-xl text-gray-700 border-b'>
                                     <th className='sticky top-0 bg-white'>Menu</th>
                                     <th className='sticky top-0 bg-white'>Metode Pembayaran</th>
                                     <th className='sticky top-0 bg-white'>Total</th>
+                                    <th className='sticky top-0 bg-white'>Jam/Tgl</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -85,6 +86,9 @@ export default function Laporan() {
                                             <td>
                                                 <div className='h-4 w-14 bg-gray-300 animate-pulse mr-4'></div>
                                             </td>
+                                            <td>
+                                                <div className='h-4 w-14 bg-gray-300 animate-pulse mr-4'></div>
+                                            </td>
                                         </tr>
                                         <tr className='text-gray-500' >
                                             <td className='flex text-ellipsis my-4'>
@@ -96,10 +100,16 @@ export default function Laporan() {
                                             <td>
                                                 <div className='h-4 w-14 bg-gray-300 animate-pulse mr-4'></div>
                                             </td>
+                                            <td>
+                                                <div className='h-4 w-14 bg-gray-300 animate-pulse mr-4'></div>
+                                            </td>
                                         </tr>
                                         <tr className='text-gray-500' >
                                             <td className='flex text-ellipsis my-4'>
                                                 <div className='h-4 w-full bg-gray-300 animate-pulse mr-4'></div>
+                                            </td>
+                                            <td>
+                                                <div className='h-4 w-14 bg-gray-300 animate-pulse mr-4'></div>
                                             </td>
                                             <td>
                                                 <div className='h-4 w-14 bg-gray-300 animate-pulse mr-4'></div>
@@ -114,6 +124,8 @@ export default function Laporan() {
                                     <>
                                         {transaction.map((item) => {
                                             const menu = JSON.parse(item.menu)
+                                            const tgl = item.created_at;
+                                            const date = new Date(tgl);
                                             return (
                                                 <tr className='text-gray-500' key={item.id}>
                                                     <td className='flex text-ellipsis my-4'>
@@ -130,6 +142,9 @@ export default function Laporan() {
                                                     </td>
                                                     <td>
                                                         +Rp{new Intl.NumberFormat(['ban', 'id']).format(item.total)}
+                                                    </td>
+                                                    <td>
+                                                        {date.getHours() + ':' + date.getMinutes() + ' - ' + date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()}
                                                     </td>
                                                 </tr>
                                             )
