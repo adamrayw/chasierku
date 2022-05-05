@@ -5,6 +5,7 @@ import { useCookies } from "react-cookie";
 import Image from 'next/image';
 import Spinner from '../public/assets/spinner.png';
 import axios from "axios";
+import Success from "../components/Modal/Success";
 
 export default function Receipt() {
     const [loading, setLoading] = useState(false);
@@ -24,6 +25,7 @@ export default function Receipt() {
         payment_method: '',
     });
     const [active, setActive] = useState(false);
+    const [success, setSuccess] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -90,6 +92,8 @@ export default function Receipt() {
                 sameSite: true,
             });
             setLoading(false);
+            setActive(false);
+            setSuccess(true);
             setReceipt({ ...receipt, user_id: '1', nama_customer: '', menu: [], subtotal: '', ppn: 11, kode_voucher: '', discount: '', total: '', payment_method: '' });
         } catch (error) {
             console.log(error);
@@ -99,8 +103,13 @@ export default function Receipt() {
 
 
     return (
-
         <div className="p-10 relative h-screen w-auto overflow-auto">
+            {success ? (
+                <div className={`modal fixed w-full h-full top-0 left-0 flex items-center justify-center`} >
+                    <div className="modal-overlay absolute w-full h-full bg-gray-900 opacity-50" onClick={() => setSuccess(false)}></div>
+                    <Success data={receipt.total} />
+                </div>
+            ) : null}
             {active ? (
                 <div className={`modal fixed w-full h-full top-0 left-0 flex items-center justify-center`} >
                     <div className="modal-overlay absolute w-full h-full bg-gray-900 opacity-50" onClick={() => setActive(false)}></div>
@@ -110,9 +119,9 @@ export default function Receipt() {
                             <h2 className="text-2xl font-semibold text-gray-900">Konfirmasi Order</h2>
                             <hr className="mb-2" />
                             <div className="flex flex-col h-56 overflow-auto">
-                                {receipt.menu.map((item) => {
+                                {receipt.menu.map((item, index) => {
                                     return (
-                                        <div key={item.id} className="my-2 flex items-center justify-between">
+                                        <div key={index} className="my-2 flex items-center justify-between">
                                             <Image src={item.image} alt="menu_logo" width={60} height={60} />
                                             <p>{item.name}</p>
                                             <p>Rp{new Intl.NumberFormat(['ban', 'id']).format(item.price)}</p>
@@ -228,7 +237,7 @@ export default function Receipt() {
                     <h2>Rp{new Intl.NumberFormat(['ban', 'id']).format(total)}</h2>
                 </div>
             </div>
-            <div className="some-btn my-36 space-y-4">
+            <div className="some-btn my-20 space-y-4">
                 <input type="text" className="border border-dashed w-full text-center py-4 text-xl" placeholder="Kode Voucher" onKeyUp={((e) => {
                     dispatch(getVoucher(e.target.value))
                     handlePrintReceipt();
