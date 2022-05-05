@@ -6,6 +6,7 @@ import Menus from '../public/assets/menus.png'
 import Discount from '../public/assets/discount.png'
 import Label from '../public/assets/label.png'
 import Back from '../public/assets/back.png'
+import Logo from '../public/assets/logo.png'
 import Voucher from "./Modal/Voucher";
 import Menu from "./Modal/Menu";
 import Category from "./Modal/Category";
@@ -54,9 +55,9 @@ export default function NavbarC() {
                 </div>
 
 
-                <p className="w-full mt-4 py-5 px-3 text-xs h-6  text-center text-gray-700">
-                    Powered by Chasierku
-                </p>
+                <a href="http://chasierku.herokuapp.com/" target="_blank" className=" w-full mt-4 py-5 px-3 text-xs h-6 text-center text-gray-700" rel="noreferrer">
+                    <Image src={Logo} alt="logo" width={20} height={20} />
+                </a>
 
             </nav>
 
