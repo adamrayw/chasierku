@@ -43,7 +43,9 @@ export const receiptSlice = createSlice({
         (index) => index.id === action.payload.id
       );
       if (itemIndex >= 0) {
-        if (state.value[itemIndex]) {
+        if (state.value[itemIndex].qty > 1) {
+          state.value[itemIndex].qty -= 1;
+        } else if (state.value[itemIndex].qty === 1) {
           state.value.splice(itemIndex, 1);
         }
       }
