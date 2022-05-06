@@ -70,7 +70,7 @@ export default function Laporan() {
                                     <th className='sticky top-0 bg-white'>Menu</th>
                                     <th className='sticky top-0 bg-white'>Metode Pembayaran</th>
                                     <th className='sticky top-0 bg-white'>Total</th>
-                                    <th className='sticky top-0 bg-white'>Jam/Tgl</th>
+                                    <th className='sticky top-0 bg-white'>Jam - Tgl</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -128,27 +128,28 @@ export default function Laporan() {
                                             const date = new Date(tgl);
                                             return (
                                                 <tr className='text-gray-500' key={item.id}>
-                                                    <td className='flex flex-wrap my-4'>
+                                                    <td className='flex flex-wrap my-4 p-5 pl-0'>
                                                         {menu.map((item, index) => {
                                                             return (
                                                                 <p className='pr-2' key={index}>
-                                                                    {item.name},
+                                                                    {item.qty}x {item.name}
                                                                 </p>
                                                             )
                                                         })}
                                                     </td>
-                                                    <td>
+                                                    <td className='p-5 pl-0'>
                                                         {item.payment_method}
                                                     </td>
-                                                    <td>
+                                                    <td className='p-5 pl-0'>
                                                         +Rp{new Intl.NumberFormat(['ban', 'id']).format(item.total)}
                                                     </td>
-                                                    <td>
+                                                    <td className='p-5 pl-0'>
                                                         {date.getHours() + ':' + date.getMinutes() + ' - ' + date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()}
                                                     </td>
                                                 </tr>
                                             )
                                         })}
+
                                     </>
 
                                 )}
@@ -156,6 +157,13 @@ export default function Laporan() {
 
                             </tbody>
                         </table>
+                        {transaction.length === 0 ? (
+                            <>
+                                <p className='text-gray-500 pt-10 text-center' >
+                                    Belum pernah melakukan Transaksi
+                                </p>
+                            </>
+                        ) : ''}
                     </div>
                 </div>
 
