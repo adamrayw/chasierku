@@ -67,40 +67,44 @@ export default function Receipt() {
     }
 
     async function sendReceipt() {
-        setLoading(true);
-        const formData = new FormData();
-        formData.append("user_id", receipt.user_id);
-        formData.append("customer_name", customer);
-        formData.append("menu", JSON.stringify(receipt.menu));
-        formData.append("subtotal", receipt.subtotal);
-        formData.append("ppn", receipt.ppn);
-        formData.append("kode_voucher", receipt.kode_voucher);
-        formData.append("discount", receipt.discount);
-        formData.append("total", receipt.total);
-        formData.append("payment_method", receipt.payment_method);
+        if (receipt.customer === '') {
+            alert('Nama customer dan metode pembayaran harus diisi');
+        } else {
+            setLoading(true);
+            const formData = new FormData();
+            formData.append("user_id", receipt.user_id);
+            formData.append("customer_name", customer);
+            formData.append("menu", JSON.stringify(receipt.menu));
+            formData.append("subtotal", receipt.subtotal);
+            formData.append("ppn", receipt.ppn);
+            formData.append("kode_voucher", receipt.kode_voucher);
+            formData.append("discount", receipt.discount);
+            formData.append("total", receipt.total);
+            formData.append("payment_method", receipt.payment_method);
 
-        try {
-            axios.get('/sanctum/csrf-cookie')
-            const response = await axios.post('/api/transaction', formData);
-            await axios.post('/api/income', {
-                user_id: receipt.user_id,
-                income: receipt.total + Number(cookie.income)
-            });
-            removeCookie('income', { path: '/' });
-            setCookieIncome('income', receipt.total + Number(cookie.income), {
-                path: '/',
-                maxAge: 3600,
-                sameSite: true,
-            });
-            setLoading(false);
-            setActive(false);
-            setSuccess(true);
-            setReceipt({ ...receipt, user_id: '1', nama_customer: '', menu: [], subtotal: '', ppn: 11, kode_voucher: '', discount: '', total: '', payment_method: '' });
-            dispatch(setValueEmpty())
-            dispatch(setCustomer(''))
-        } catch (error) {
-            console.log(error);
-            setLoading(false);
+            try {
+                axios.get('/sanctum/csrf-cookie')
+                const response = await axios.post('/api/transaction', formData);
+                await axios.post('/api/income', {
+                    user_id: receipt.user_id,
+                    income: receipt.total + Number(cookie.income)
+                });
+                removeCookie('income', { path: '/' });
+                setCookieIncome('income', receipt.total + Number(cookie.income), {
+                    path: '/',
+                    maxAge: 3600,
+                    sameSite: true,
+                });
+                setLoading(false);
+                setActive(false);
+                setSuccess(true);
+                setReceipt({ ...receipt, user_id: '1', nama_customer: '', menu: [], subtotal: '', ppn: 11, kode_voucher: '', discount: '', total: '', payment_method: '' });
+                dispatch(setValueEmpty())
+                dispatch(setCustomer(''))
+            } catch (error) {
+                console.log(error);
+                setLoading(false);
+            }
         }
     }
 
@@ -120,7 +124,7 @@ export default function Receipt() {
                     <div className="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-10 overflow-y-auto">
                         <div className="modal-content p-10 ">
                             <h2 className="text-2xl font-semibold text-gray-900">Konfirmasi Order</h2>
-                            <hr className="mb-2" />
+                            <hr className="my-2" />
                             <div className="flex flex-col h-56 overflow-auto">
                                 {receipt.menu.map((item, index) => {
                                     return (
@@ -132,20 +136,22 @@ export default function Receipt() {
                                     )
                                 })}
                             </div>
-                            <div className="mt-6 flex items-center justify-between">
+                            <hr />
+
+                            <div className="mt-6 flex text-gray-600 items-center justify-between">
                                 <p className="text-xl font-medium">Subtotal</p>
-                                <p className="text-gray-400">Rp{new Intl.NumberFormat(['ban', 'id']).format(receipt.subtotal)}</p>
+                                <p>Rp{new Intl.NumberFormat(['ban', 'id']).format(receipt.subtotal)}</p>
                             </div>
-                            <div className="mt-2 flex items-center justify-between">
+                            <div className="mt-2 flex text-gray-400 items-center justify-between">
                                 <p className="text-sm font-normal">PPN 11%</p>
-                                <p className="text-gray-400">+Rp{new Intl.NumberFormat(['ban', 'id']).format(subtotal.subTotal * 11.0 / 100)}</p>
+                                <p>+Rp{new Intl.NumberFormat(['ban', 'id']).format(subtotal.subTotal * 11.0 / 100)}</p>
                             </div>
-                            <div className="mt-2 flex items-center justify-between">
+                            <div className="mt-2 flex  text-gray-400 items-center justify-between">
                                 <p className="text-sm font-normal">Voucher</p>
                                 {(subtotal.isVoucher.isTrue) ? (
                                     <div className="ppn mt-2 flex justify-between items-center">
-                                        <p className="text-gray-400 mr-2">{subtotal.isVoucher.value.name} {subtotal.isVoucher.value.disc}%</p>
-                                        <p className="text-gray-400">- Rp{new Intl.NumberFormat(['ban', 'id']).format(potongan)}</p>
+                                        <p className="mr-2">{subtotal.isVoucher.value.name} {subtotal.isVoucher.value.disc}%</p>
+                                        <p>- Rp{new Intl.NumberFormat(['ban', 'id']).format(potongan)}</p>
                                     </div>
                                 ) : (<p className="text-gray-400">-</p>)}
                             </div>
@@ -153,13 +159,12 @@ export default function Receipt() {
                                 <p className="text-xl font-medium">TOTAL</p>
                                 <p className="text-gray-800 font-bold">Rp{new Intl.NumberFormat(['ban', 'id']).format(receipt.total)}</p>
                             </div>
-                            <hr />
 
                             <label htmlFor="payment" className="mt-4 block mb-2 text-sm font-medium text-gray-900 ">Metode Pembayaran</label>
                             <select id="payment" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 " onChange={(e) => {
                                 setReceipt({ ...receipt, payment_method: e.target.value });
                             }}>
-                                <option selected>Pilih Metode Pembayaran</option>
+                                <option value='' selected>Pilih Metode Pembayaran</option>
                                 <option value="Tunai">Tunai</option>
                                 <option value="GoPay">GoPay</option>
                                 <option value="OVO">OVO</option>
@@ -185,7 +190,8 @@ export default function Receipt() {
                         </div>
                     </div>
                 </div >
-            ) : ('')}
+            ) : ('')
+            }
 
             <div className="customer relative">
 
@@ -260,6 +266,6 @@ export default function Receipt() {
                 )}
 
             </div>
-        </div>
+        </div >
     )
 }
