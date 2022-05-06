@@ -201,7 +201,7 @@ export default function Receipt() {
                         return (
                             <div key={index} className="flex text-2xl text-gray-600 justify-between items-center mt-6 first-of-type:mt-0">
                                 <div>
-                                    <h2>{item.name}</h2>
+                                    <h2>{item.qty}x{item.name}</h2>
                                 </div>
                                 <div className="flex items-center">
                                     <h2>Rp{new Intl.NumberFormat(['ban', 'id']).format(item.price)}</h2>
