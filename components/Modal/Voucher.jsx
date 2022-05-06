@@ -278,7 +278,7 @@ export default function Voucher() {
                     )}
 
                     {success ? (
-                        <p className='text-center mt-10 text-green-500'>Voucher Berhasil Ditambahkan!</p>
+                        <p className='text-center mt-10 text-green-500'>Voucher Berhasil Ditambahkan! Segera Refresh Halaman</p>
                     ) : ''}
                 </form>
             </div>
