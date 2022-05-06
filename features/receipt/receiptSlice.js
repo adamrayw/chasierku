@@ -1,13 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { voucher } from "../../data/voucher";
+// import { voucher } from "../../data/voucher";
 
 const initialState = {
   value: [],
   tab: "default",
   customer: "",
-  voucher,
+  voucher: [],
   isVoucher: {
     isTrue: false,
+    voucher_name: "",
     value: [],
   },
   subTotal: 0,
@@ -70,16 +72,28 @@ export const receiptSlice = createSlice({
       state.subTotal = subtotal;
       state.qty = quantity;
     },
+    setVoucher: (state, action) => {
+      state.voucher = action.payload;
+    },
     getVoucher: (state, action) => {
       // get voucher from state voucher
-      const voucher = state.voucher.find((v) => v.kode === action.payload);
+      const voucher = state.voucher.find(
+        (v) => v.voucher_code === action.payload
+      );
       if (voucher) {
         state.isVoucher.isTrue = true;
         state.isVoucher.value = voucher;
-      } else {
-        state.isVoucher.isTrue = false;
-        state.isVoucher.value = [];
+        state.isVoucher.voucher_name = voucher.voucher_name;
       }
+    },
+    clearVoucher: (state) => {
+      state.isVoucher.isTrue = false;
+      state.isVoucher.value = {
+        ...voucher,
+        isTrue: false,
+        voucher_name: "",
+        value: [],
+      };
     },
     changeTab: (state, action) => {
       state.tab = action.payload;
@@ -95,6 +109,8 @@ export const {
   changeTab,
   setValueEmpty,
   setCustomer,
+  setVoucher,
+  clearVoucher,
 } = receiptSlice.actions;
 
 export default receiptSlice.reducer;
