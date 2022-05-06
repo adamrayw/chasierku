@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux"
-import { getVoucher, removeReceiptItem, setCustomer, setValueEmpty } from "../features/receipt/receiptSlice";
+import { clearVoucher, getVoucher, removeReceiptItem, setCustomer, setValueEmpty, setVoucher } from "../features/receipt/receiptSlice";
 import { useCookies } from "react-cookie";
 import Image from 'next/image';
 import Spinner from '../public/assets/spinner.png';
@@ -27,6 +27,7 @@ export default function Receipt() {
     });
     const [active, setActive] = useState(false);
     const [success, setSuccess] = useState(false);
+    const [vouchers, setVouchers] = useState([]);
 
     const dispatch = useDispatch();
 
@@ -50,6 +51,11 @@ export default function Receipt() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch])
 
+    useEffect(() => {
+        getAllVoucher()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
 
     function handlePrintReceipt() {
         if (cookie.user) {
@@ -59,7 +65,7 @@ export default function Receipt() {
                 menu: data,
                 subtotal: subtotal.subTotal,
                 ppn: 11,
-                kode_voucher: subtotal.isVoucher.value.kode ?? '',
+                kode_voucher: subtotal.isVoucher.value.voucher_code ?? '',
                 discount: subtotal.isVoucher.value.disc ?? '',
                 total: total,
             });
@@ -67,8 +73,8 @@ export default function Receipt() {
     }
 
     async function sendReceipt() {
-        if (receipt.customer === '') {
-            alert('Nama customer dan metode pembayaran harus diisi');
+        if (customer === '') {
+            alert('Nama customer harus diisi');
         } else {
             setLoading(true);
             const formData = new FormData();
@@ -108,6 +114,14 @@ export default function Receipt() {
         }
     }
 
+    async function getAllVoucher() {
+        try {
+            const response = await axios.get('/api/voucher/' + cookie.user.data.id);
+            dispatch(setVoucher(response.data.data.vouchers));
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <div className="p-10 relative h-screen w-auto overflow-auto">
@@ -150,8 +164,15 @@ export default function Receipt() {
                                 <p className="text-sm font-normal">Voucher</p>
                                 {(subtotal.isVoucher.isTrue) ? (
                                     <div className="ppn mt-2 flex justify-between items-center">
-                                        <p className="mr-2">{subtotal.isVoucher.value.name} {subtotal.isVoucher.value.disc}%</p>
-                                        <p>- Rp{new Intl.NumberFormat(['ban', 'id']).format(potongan)}</p>
+                                        <p className="mr-2">{subtotal.isVoucher.value.voucher_name} {subtotal.isVoucher.value.disc}%</p>
+                                        <div className="flex items-center space-x-2">
+                                            <p className="text-gray-400">- Rp{new Intl.NumberFormat(['ban', 'id']).format(potongan)}</p>
+                                            <button className="text-red-500" onClick={() => dispatch(clearVoucher())}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                                                </svg>
+                                            </button>
+                                        </div>
                                     </div>
                                 ) : (<p className="text-gray-400">-</p>)}
                             </div>
@@ -235,12 +256,20 @@ export default function Receipt() {
                     <p className="text-gray-400">PPN 11%</p>
                     <p className="text-gray-400">+ Rp{new Intl.NumberFormat(['ban', 'id']).format(subtotal.subTotal * 11.0 / 100)}</p>
                 </div>
-                {(subtotal.isVoucher.isTrue) ? (
+                {subtotal.isVoucher.isTrue ? (
                     <div className="ppn mt-2 flex justify-between items-center">
-                        <p className="text-gray-400">{subtotal.isVoucher.value.name} {subtotal.isVoucher.value.disc}%</p>
-                        <p className="text-gray-400">- Rp{new Intl.NumberFormat(['ban', 'id']).format(potongan)}</p>
+                        <p className="text-gray-400">{subtotal.isVoucher.value.voucher_name} {subtotal.isVoucher.value.disc}%</p>
+                        <div className="flex items-center space-x-2">
+                            <p className="text-gray-400">- Rp{new Intl.NumberFormat(['ban', 'id']).format(potongan)}</p>
+                            <button className="text-red-500" onClick={() => dispatch(clearVoucher())}>
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
-                ) : ('')}
+                ) : ''}
+
 
             </div>
             <div className="total mt-4">
@@ -250,10 +279,12 @@ export default function Receipt() {
                 </div>
             </div>
             <div className="some-btn my-20 space-y-4">
+
                 <input type="text" className="border border-dashed w-full text-center py-4 text-xl" placeholder="Kode Voucher" onKeyUp={((e) => {
                     dispatch(getVoucher(e.target.value))
                     handlePrintReceipt();
                 })} />
+
 
                 {receipt.menu.length === 0 ? (
                     <button className={`bg-orange-500 text-white hover:cursor-not-allowed opacity-50 transition-all w-full font-bold tracking-wide text-center py-4 text-xl`} disabled>
