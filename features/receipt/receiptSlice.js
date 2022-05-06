@@ -11,6 +11,7 @@ const initialState = {
     value: [],
   },
   subTotal: 0,
+  qty: 0,
 };
 
 export const receiptSlice = createSlice({
@@ -24,8 +25,17 @@ export const receiptSlice = createSlice({
       state.value = [];
     },
     addToReceipt: (state, action) => {
-      const tempMenu = { ...action.payload };
-      state.value.push(tempMenu);
+      const itemIndex = state.value.findIndex(
+        (item) => item.id === action.payload.id
+      );
+      if (itemIndex >= 0) {
+        state.value[itemIndex].qty += 1;
+      } else {
+        const tempitem = { ...action.payload, qty: action.payload.qty };
+        state.value.push(tempitem);
+      }
+      // const tempMenu = { ...action.payload };
+      // state.value.push(tempMenu);
     },
     removeReceiptItem: (state, action) => {
       // get id from state value
@@ -43,16 +53,20 @@ export const receiptSlice = createSlice({
       let { subtotal, quantity } = state.value.reduce(
         (cartSubtotal, cartItem) => {
           const { price, qty } = cartItem;
+          const itemTotal = Number(price) * Number(qty);
 
-          cartSubtotal.subtotal += Number(price);
+          cartSubtotal.subtotal += itemTotal;
+          cartSubtotal.quantity += Number(qty);
 
           return cartSubtotal;
         },
         {
           subtotal: 0,
+          qty: 0,
         }
       );
       state.subTotal = subtotal;
+      state.qty = quantity;
     },
     getVoucher: (state, action) => {
       // get voucher from state voucher
