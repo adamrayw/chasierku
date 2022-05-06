@@ -126,7 +126,7 @@ export default function Receipt() {
                                     return (
                                         <div key={index} className="my-2 flex items-center justify-between">
                                             <Image src={item.image} alt="menu_logo" width={60} height={60} />
-                                            <p>{item.name}</p>
+                                            <p>{item.qty}x {item.name}</p>
                                             <p>Rp{new Intl.NumberFormat(['ban', 'id']).format(item.price)}</p>
                                         </div>
                                     )
