@@ -65,7 +65,10 @@ export default function NavbarC() {
                 active ? (
                     index === 0 ? (
                         <div className={`modal fixed w-full h-full top-0 left-0 flex items-center justify-center`} >
-                            <div className="modal-overlay absolute w-full h-full bg-gray-900 opacity-50" onClick={() => setActive(false)}></div>
+                            <div className="modal-overlay absolute w-full h-full bg-gray-900 opacity-50" onClick={() => {
+                                setActive(false)
+                                setIndex(0)
+                            }}></div>
 
                             <div className="modal-container bg-white w-96 mx-auto rounded shadow-lg z-10 overflow-y-auto">
 
@@ -111,7 +114,10 @@ export default function NavbarC() {
                         </div >
                     ) : index === 1 ? (
                         <div className={`modal fixed w-full h-full top-0 left-0 flex items-center justify-center`} >
-                            <div className="modal-overlay absolute w-full h-full bg-gray-900 opacity-50" onClick={() => setActive(false)}></div>
+                            <div className="modal-overlay absolute w-full h-full bg-gray-900 opacity-50" onClick={() => {
+                                setActive(false)
+                                setIndex(0)
+                            }}></div>
 
                             <div className="modal-container bg-white w-4/4 lg:w-4/8 mx-auto rounded shadow-lg z-10 overflow-y-auto">
 
@@ -136,7 +142,10 @@ export default function NavbarC() {
                         </div >
                     ) : index === 2 ? (
                         <div className={`modal fixed w-full h-full top-0 left-0 flex items-center justify-center`} >
-                            <div className="modal-overlay absolute w-full h-full bg-gray-900 opacity-50" onClick={() => setActive(false)}></div>
+                            <div className="modal-overlay absolute w-full h-full bg-gray-900 opacity-50" onClick={() => {
+                                setActive(false)
+                                setIndex(0)
+                            }}></div>
 
                             <div className="modal-container bg-white w-4/4 lg:w-4/8 mx-auto rounded shadow-lg z-10 ">
 
@@ -161,7 +170,10 @@ export default function NavbarC() {
                         </div >
                     ) : index === 3 ? (
                         <div className={`modal fixed w-full h-full top-0 left-0 flex items-center justify-center`} >
-                            <div className="modal-overlay absolute w-full h-full bg-gray-900 opacity-50" onClick={() => setActive(false)}></div>
+                            <div className="modal-overlay absolute w-full h-full bg-gray-900 opacity-50" onClick={() => {
+                                setActive(false)
+                                setIndex(0)
+                            }}></div>
 
                             <div className="modal-container bg-white w-2/3 lg:w-1/3  mx-auto rounded shadow-lg z-10 ">
 
