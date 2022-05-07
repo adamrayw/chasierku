@@ -91,7 +91,7 @@ export default function Menu() {
         }
     }
     return (
-        <div className="flex flex-col md:flex-row justify-between pb-6 space-x-6 bg-white w-full">
+        <div className="flex flex-col md:flex-row pb-6 space-x-6 bg-white w-full">
             <div>
                 <div>
                     <div className='mt-6 overflow-y-scroll h-96'>
@@ -209,7 +209,7 @@ export default function Menu() {
                 </div>
             </div>
 
-            <div className="block mt-6 bg-white">
+            <div className="mt-6 bg-white">
                 <div>
                     <h2 className='text-xl font-bold text-gray-600 mb-2'>Tambah Menu</h2>
                     <hr className='mb-4' />
