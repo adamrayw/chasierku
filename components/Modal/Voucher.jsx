@@ -105,183 +105,190 @@ export default function Voucher() {
 
     return (
         <div className='py-6'>
-            <div className='mb-6'>
-                {/* <h1 className='text-xl font-bold mb-2 text-gray-700'>Voucher Aktif</h1> */}
-                <div className=' h-48 w-full overflow-x-auto md:overflow-x-hidden'>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th className='sticky w-full top-0 px-6 py-2 text-white bg-orange-500'>
-                                    Name
-                                </th>
-                                <th className='sticky w-full top-0 px-6 py-2 text-white bg-orange-500'>
-                                    Code
-                                </th>
-                                <th className='sticky w-full top-0 px-6 py-2 text-white bg-orange-500'>
-                                    Discount
-                                </th>
-                                <th className='sticky w-full z-50 top-0 px-6 py-2 text-white bg-orange-500'>
-                                    Action
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {skeletonLoading ? (
-                                <tr>
-                                    <td className='py-4 pr-4'>
-                                        <div className='h-5 w-full bg-gray-300 rounded-lg animate-pulse'></div>
-                                    </td>
-                                    <td className='py-4 pr-4'>
-                                        <div className='h-5 w-full bg-gray-300 rounded-lg animate-pulse'></div>
-                                    </td>
-                                    <td className='py-4 pr-4'>
-                                        <div className='h-5 w-full bg-gray-300 rounded-lg animate-pulse'></div>
-                                    </td>
-                                    <td className='py-4 pr-4 space-x-2 flex items-center justify-center'>
+            <div className='flex items-start space-x-4'>
+                <div>
+                    <div className='mb-6'>
+                        {/* <h1 className='text-xl font-bold mb-2 text-gray-700'>Voucher Aktif</h1> */}
+                        <div className='h-80 w-full overflow-y-auto'>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th className='sticky w-full top-0 px-6 py-2 text-white bg-orange-500'>
+                                            Name
+                                        </th>
+                                        <th className='sticky w-full top-0 px-6 py-2 text-white bg-orange-500'>
+                                            Code
+                                        </th>
+                                        <th className='sticky w-full top-0 px-6 py-2 text-white bg-orange-500'>
+                                            Discount
+                                        </th>
+                                        <th className='sticky w-full z-50 top-0 px-6 py-2 text-white bg-orange-500'>
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {skeletonLoading ? (
+                                        <tr>
+                                            <td className='py-4 pr-4'>
+                                                <div className='h-5 w-full bg-gray-300 rounded-lg animate-pulse'></div>
+                                            </td>
+                                            <td className='py-4 pr-4'>
+                                                <div className='h-5 w-full bg-gray-300 rounded-lg animate-pulse'></div>
+                                            </td>
+                                            <td className='py-4 pr-4'>
+                                                <div className='h-5 w-full bg-gray-300 rounded-lg animate-pulse'></div>
+                                            </td>
+                                            <td className='py-4 pr-4 space-x-2 flex items-center justify-center'>
 
-                                        <button>
-                                            <Image src={Edit} width={20} height={20} alt="edit" />
-                                        </button>
-                                        <button>
-                                            <Image src={Delete} width={20} height={20} alt="delete" onClick={(() => {
-                                                setDeletedVoucherName(voucher);
-                                                setIsDeleteVoucher(true);
-                                            })} />
-                                        </button>
-                                    </td>
-                                </tr>
-                            ) : null}
-                            {getVoucher.map((voucher, index) => {
-                                return (
-                                    <tr key={index} className="border-b">
-                                        <td className='py-4 px-6'>{voucher.voucher_name}</td>
-                                        <td className='py-4 px-6'>{voucher.voucher_code}</td>
-                                        <td className='py-4 px-6'>{voucher.disc}%</td>
-                                        <td className='py-4 px-6 space-x-2 flex items-center'>
-                                            {isEditMode ? (
                                                 <button>
-                                                    <Image src={Edit} width={20} height={20} alt="edit" onClick={() => {
-                                                        setIsEditMode(false);
-                                                        setVoucher({ ...voucher, id: '', voucher_name: '', voucher_code: '', disc: '' })
-
-                                                    }} />
+                                                    <Image src={Edit} width={20} height={20} alt="edit" />
                                                 </button>
-                                            ) : (
                                                 <button>
-                                                    <Image src={Edit} width={20} height={20} alt="edit" onClick={(() => {
-                                                        setVoucher({ ...voucher, id: voucher.id, voucher_name: voucher.voucher_name, voucher_code: voucher.voucher_code, disc: voucher.disc })
-                                                        setIsEditMode(true);
-                                                        setIsDeleteVoucher(false);
+                                                    <Image src={Delete} width={20} height={20} alt="delete" onClick={(() => {
+                                                        setDeletedVoucherName(voucher);
+                                                        setIsDeleteVoucher(true);
                                                     })} />
                                                 </button>
-                                            )}
+                                            </td>
+                                        </tr>
+                                    ) : null}
+                                    {getVoucher.map((voucher, index) => {
+                                        return (
+                                            <tr key={index} className="border-b">
+                                                <td className='py-4 px-6'>{voucher.voucher_name}</td>
+                                                <td className='py-4 px-6'>{voucher.voucher_code}</td>
+                                                <td className='py-4 px-6'>{voucher.disc}%</td>
+                                                <td className='py-4 px-6 space-x-2 flex items-center'>
+                                                    {isEditMode ? (
+                                                        <button>
+                                                            <Image src={Edit} width={20} height={20} alt="edit" onClick={() => {
+                                                                setIsEditMode(false);
+                                                                setVoucher({ ...voucher, id: '', voucher_name: '', voucher_code: '', disc: '' })
 
-                                            <button>
-                                                <Image src={Delete} width={20} height={20} alt="delete" onClick={(() => {
-                                                    setDeletedVoucherName(voucher);
-                                                    setIsDeleteVoucher(true);
-                                                    setIsEditMode(false);
-                                                })} />
-                                            </button>
-                                        </td>
-                                    </tr>
-                                )
-                            })}
-                            {skeletonLoading ? null : (
-                                <>
-                                    {
-                                        getVoucher.length < 1 ? (
-                                            <tr>
-                                                <td className='py-4 pr-4' colSpan={4}>
-                                                    <div className='text-center'>
-                                                        <p className='text-gray-700'>Tidak ada voucher</p>
-                                                    </div>
+                                                            }} />
+                                                        </button>
+                                                    ) : (
+                                                        <button>
+                                                            <Image src={Edit} width={20} height={20} alt="edit" onClick={(() => {
+                                                                setVoucher({ ...voucher, id: voucher.id, voucher_name: voucher.voucher_name, voucher_code: voucher.voucher_code, disc: voucher.disc })
+                                                                setIsEditMode(true);
+                                                                setIsDeleteVoucher(false);
+                                                            })} />
+                                                        </button>
+                                                    )}
+
+                                                    <button>
+                                                        <Image src={Delete} width={20} height={20} alt="delete" onClick={(() => {
+                                                            setDeletedVoucherName(voucher);
+                                                            setIsDeleteVoucher(true);
+                                                            setIsEditMode(false);
+                                                        })} />
+                                                    </button>
                                                 </td>
                                             </tr>
-                                        ) : null
-                                    }
-                                </>
+                                        )
+                                    })}
+                                    {skeletonLoading ? null : (
+                                        <>
+                                            {
+                                                getVoucher.length < 1 ? (
+                                                    <tr>
+                                                        <td className='py-4 pr-4' colSpan={4}>
+                                                            <div className='text-center'>
+                                                                <p className='text-gray-700'>Tidak ada voucher</p>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                ) : null
+                                            }
+                                        </>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                        {isEditMode ? (
+                            <div className='text-right w-full'>
+                                <button className='bg-gray-600 text-white rounded px-4 py-2 shadow-sm' onClick={() => {
+                                    setIsEditMode(false);
+                                    setVoucher({ ...voucher, id: '', voucher_name: '', voucher_code: '', disc: '' })
+                                }}>
+                                    Tutup Mode Edit
+                                </button>
+                            </div>
+                        ) : null}
+                    </div>
+
+                    {isDeleteVoucher ? (
+                        <div className='bg-orange-500 text-white px-4 py-4'>
+                            <p className=' text-center'>
+                                {` Yakin ingin delete voucher ${deletedVoucherName.voucher_name}?`}
+                            </p>
+                            <div className='flex items-center mt-4 justify-around'>
+                                {loadingDeleteVoucher ? (
+                                    <Image className='animate-spin ' src={Spinner} width={20} height={20} alt="spinner" />
+                                ) : (
+                                    <>
+                                        <button className='bg-white text-red-500 px-4 py-2 shadow-sm rounded-md mt-2 hover:bg-gray-50 active:bg-gray-500' onClick={() => handleDeleteVoucher(deletedVoucherName)}>Ya, yakin</button>
+                                        <button className='bg-white text-red-500 px-4 py-2 shadow-sm rounded-md mt-2 hover:bg-gray-50 active:bg-gray-500' onClick={(() => {
+                                            setIsDeleteVoucher(false);
+                                            setDeletedVoucherName([]);
+                                        })}>Ga Jadi</button>
+                                    </>
+                                )}
+
+                            </div>
+                        </div>
+                    ) : null}
+                </div>
+                <div>
+                    <div className="block w-60 bg-white max-w-full">
+                        <form onSubmit={handleSubmit}>
+                            <div className="form-group mb-6">
+                                <label htmlFor="nama_voucher" className="form-label inline-block mb-2 text-gray-700">Nama Voucher</label>
+                                <input type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange-600 focus:outline-none"
+                                    aria-describedby="voucher" placeholder="Nama Voucher" onChange={(e) => setVoucher({ ...voucher, voucher_name: e.target.value })} value={voucher.voucher_name} required />
+                                <small id="voucher" className="block mt-1 text-xs text-gray-600">cth: VOUCHER HARI KEMERDEKAAN</small>
+                            </div>
+                            <div className="form-group mb-6">
+                                <label htmlFor="voucher_code" className="form-label inline-block mb-2 text-gray-700">Voucher Code</label>
+                                <input type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange-600 focus:outline-none"
+                                    placeholder="Code" onChange={(e) => setVoucher({ ...voucher, voucher_code: e.target.value })} value={voucher.voucher_code} />
+                                <small id="voucherCode" className="block mt-1 text-xs text-gray-600">cth: MERDEKA45</small>
+                            </div>
+                            <div className="form-group mb-6">
+                                <label htmlFor="jumlah_diskon" className="form-label inline-block mb-2 text-gray-700">Diskon (%)</label>
+                                <input type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange-600 focus:outline-none"
+                                    placeholder="Jumlah Diskon" onChange={(e) => setVoucher({ ...voucher, disc: e.target.value })} value={voucher.disc} required />
+                                <small id="jumlah_diskon" className="block mt-1 text-xs text-gray-600">cth: 40 = 40%</small>
+                            </div>
+
+                            {isEditMode ? (
+                                <button type="submit" className={`px-6 py-2.5 bg-orange-600 ${loading ? 'opacity-50 cursor-not-allowed hover:bg-orange-600 shadow-lg' : ''} text-white font-medium text-xs leading-tight uppercase rounded shadow-md  hover:shadow-lg focus:bg-orange-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-orange-800 active:shadow-lg transition duration-150 ease-in-out `} {...(loading) ? { disabled: true } : {}} onClick={(() => {
+                                    handleEditVoucher();
+                                })}>
+                                    {loading ? (
+                                        <Image className='animate-spin' src={Spinner} width="20" height="20" alt='loading' />
+                                    ) : 'EDIT'}
+                                </button>
+                            ) : (
+                                <button type="submit" className={`px-6 py-2.5 bg-orange-600 ${loading ? 'opacity-50 cursor-not-allowed hover:bg-orange-600 shadow-lg' : ''} text-white font-medium text-xs leading-tight uppercase rounded shadow-md  hover:shadow-lg focus:bg-orange-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-orange-800 active:shadow-lg transition duration-150 ease-in-out `} {...(loading) ? { disabled: true } : {}}>
+                                    {loading ? (
+                                        <Image className='animate-spin' src={Spinner} width="20" height="20" alt='loading' />
+                                    ) : 'TAMBAH'}
+                                </button>
                             )}
-                        </tbody>
-                    </table>
-                </div>
-                {isEditMode ? (
-                    <div className='text-right w-full'>
-                        <button className='bg-gray-600 text-white rounded px-4 py-2 shadow-sm' onClick={() => {
-                            setIsEditMode(false);
-                            setVoucher({ ...voucher, id: '', voucher_name: '', voucher_code: '', disc: '' })
-                        }}>
-                            Tutup Mode Edit
-                        </button>
-                    </div>
-                ) : null}
-            </div>
 
-            {isDeleteVoucher ? (
-                <div className='bg-orange-500 text-white px-4 py-4'>
-                    <p className=' text-center'>
-                        {` Yakin ingin delete voucher ${deletedVoucherName.voucher_name}?`}
-                    </p>
-                    <div className='flex items-center mt-4 justify-around'>
-                        {loadingDeleteVoucher ? (
-                            <Image className='animate-spin ' src={Spinner} width={20} height={20} alt="spinner" />
-                        ) : (
-                            <>
-                                <button className='bg-white text-red-500 px-4 py-2 shadow-sm rounded-md mt-2 hover:bg-gray-50 active:bg-gray-500' onClick={() => handleDeleteVoucher(deletedVoucherName)}>Ya, yakin</button>
-                                <button className='bg-white text-red-500 px-4 py-2 shadow-sm rounded-md mt-2 hover:bg-gray-50 active:bg-gray-500' onClick={(() => {
-                                    setIsDeleteVoucher(false);
-                                    setDeletedVoucherName([]);
-                                })}>Ga Jadi</button>
-                            </>
-                        )}
-
+                            {success ? (
+                                <p className='text-center mt-10 text-green-500'>Voucher Berhasil Ditambahkan! Segera Refresh Halaman</p>
+                            ) : ''}
+                        </form>
                     </div>
                 </div>
-            ) : null}
-
-            <hr />
-            <div className="block mt-6 bg-white max-w-full">
-                <form onSubmit={handleSubmit}>
-                    <div className="form-group mb-6">
-                        <label htmlFor="nama_voucher" className="form-label inline-block mb-2 text-gray-700">Nama Voucher</label>
-                        <input type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange-600 focus:outline-none"
-                            aria-describedby="voucher" placeholder="Nama Voucher" onChange={(e) => setVoucher({ ...voucher, voucher_name: e.target.value })} value={voucher.voucher_name} required />
-                        <small id="voucher" className="block mt-1 text-xs text-gray-600">cth: VOUCHER HARI KEMERDEKAAN</small>
-                    </div>
-                    <div className="form-group mb-6">
-                        <label htmlFor="voucher_code" className="form-label inline-block mb-2 text-gray-700">Voucher Code</label>
-                        <input type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange-600 focus:outline-none"
-                            placeholder="Code" onChange={(e) => setVoucher({ ...voucher, voucher_code: e.target.value })} value={voucher.voucher_code} />
-                        <small id="voucherCode" className="block mt-1 text-xs text-gray-600">cth: MERDEKA45</small>
-                    </div>
-                    <div className="form-group mb-6">
-                        <label htmlFor="jumlah_diskon" className="form-label inline-block mb-2 text-gray-700">Diskon (%)</label>
-                        <input type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange-600 focus:outline-none"
-                            placeholder="Jumlah Diskon" onChange={(e) => setVoucher({ ...voucher, disc: e.target.value })} value={voucher.disc} required />
-                        <small id="jumlah_diskon" className="block mt-1 text-xs text-gray-600">cth: 40 = 40%</small>
-                    </div>
-
-                    {isEditMode ? (
-                        <button type="submit" className={`px-6 py-2.5 bg-orange-600 ${loading ? 'opacity-50 cursor-not-allowed hover:bg-orange-600 shadow-lg' : ''} text-white font-medium text-xs leading-tight uppercase rounded shadow-md  hover:shadow-lg focus:bg-orange-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-orange-800 active:shadow-lg transition duration-150 ease-in-out `} {...(loading) ? { disabled: true } : {}} onClick={(() => {
-                            handleEditVoucher();
-                        })}>
-                            {loading ? (
-                                <Image className='animate-spin' src={Spinner} width="20" height="20" alt='loading' />
-                            ) : 'EDIT'}
-                        </button>
-                    ) : (
-                        <button type="submit" className={`px-6 py-2.5 bg-orange-600 ${loading ? 'opacity-50 cursor-not-allowed hover:bg-orange-600 shadow-lg' : ''} text-white font-medium text-xs leading-tight uppercase rounded shadow-md  hover:shadow-lg focus:bg-orange-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-orange-800 active:shadow-lg transition duration-150 ease-in-out `} {...(loading) ? { disabled: true } : {}}>
-                            {loading ? (
-                                <Image className='animate-spin' src={Spinner} width="20" height="20" alt='loading' />
-                            ) : 'TAMBAH'}
-                        </button>
-                    )}
-
-                    {success ? (
-                        <p className='text-center mt-10 text-green-500'>Voucher Berhasil Ditambahkan! Segera Refresh Halaman</p>
-                    ) : ''}
-                </form>
             </div>
+
+
+
         </div >
 
     )

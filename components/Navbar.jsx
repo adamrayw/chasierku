@@ -138,10 +138,10 @@ export default function NavbarC() {
                         <div className={`modal fixed w-full h-full top-0 left-0 flex items-center justify-center`} >
                             <div className="modal-overlay absolute w-full h-full bg-gray-900 opacity-50" onClick={() => setActive(false)}></div>
 
-                            <div className="modal-container bg-white md:w-4/12 mx-auto rounded shadow-lg z-10 ">
+                            <div className="modal-container bg-white w-4/4 lg:w-4/8 mx-auto rounded shadow-lg z-10 ">
 
                                 <div className="modal-content py-4 text-left px-6">
-                                    <div className="flex items-center pb-3">
+                                    <div className="flex justify-between items-center pb-3">
                                         <div className="flex items-center space-x-2">
                                             <button className="w-5 h-5" onClick={() => setIndex(0)}>
                                                 <Image src={Back} width={20} height={20} alt='back' />
@@ -163,7 +163,7 @@ export default function NavbarC() {
                         <div className={`modal fixed w-full h-full top-0 left-0 flex items-center justify-center`} >
                             <div className="modal-overlay absolute w-full h-full bg-gray-900 opacity-50" onClick={() => setActive(false)}></div>
 
-                            <div className="modal-container bg-white md:w-4/12 mx-auto rounded shadow-lg z-10 ">
+                            <div className="modal-container bg-white w-2/3 lg:w-1/3  mx-auto rounded shadow-lg z-10 ">
 
                                 <div className="modal-content py-4 text-left px-6">
                                     <div className="flex justify-between items-center pb-3">
